@@ -1,10 +1,10 @@
 import React from 'react'
-import Header from '../components/header/Header'
-import Navbar from '../components/navbar/Navbar'
+import Header from 'components/header/Header'
+import Navbar from 'components/navbar/Navbar'
 
 const Layout = ({children}) => {
     return (
-        <div>
+        <div className="mainContainer">
             <Header/>
             <Navbar/>
             <main>{children}</main>

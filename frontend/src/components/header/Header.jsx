@@ -1,9 +1,9 @@
 import React from 'react'
-import './Header.css';
-import notifications from '../../img/bell.png';
-import user from '../../img/deadpool-icon.png';
-import logout from '../../img/logout.png';
-import search from '../../img/loupe.png';
+import 'components/header/Header.css';
+import notifications from 'img/bell.png';
+import user from 'img/deadpool-icon.png';
+import logout from 'img/logout.png';
+import search from 'img/loupe.png';
 
 //con el sniper Rafce me crea el componene header como un arrow function
 const Header = () => {

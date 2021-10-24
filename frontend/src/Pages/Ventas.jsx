@@ -8,5 +8,4 @@ const Ventas = () => {
     )
 }
 
-export default Ventas
-   
+export default Ventas;
