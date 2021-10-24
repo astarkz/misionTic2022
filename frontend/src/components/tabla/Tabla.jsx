@@ -25,8 +25,9 @@ const Tabla = ({ headers, data, tipo }) => {
         < section className = "contenedorSection" >
             <section className="contenedorElementosTabla">
                 <IconoConTexto texto = "Quitar Seleccion" icono={quitar} />
-                <IconoConTexto texto = "`Editar ${tipo}`" icono={lapiz} />
-                <IconoConTexto texto = "Eliminar ${tipo}"  icono={basura} />
+                <IconoConTexto texto = {`Editar ${tipo}`}
+                 icono={lapiz} />
+                <IconoConTexto texto = {`Elimnar ${tipo}`}  icono={basura} />
             </section>
             <section className="contenedorTabla">
                 <table className="col-12">

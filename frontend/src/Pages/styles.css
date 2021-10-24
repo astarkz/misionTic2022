@@ -1,0 +1,9 @@
+@import "../colors.css";
+
+.fondoGris{
+    display: flex;
+    flex-direction: column;
+    background: var(--colorSecundario);
+    height: 100vh;
+    overflow-y: hidden;
+}

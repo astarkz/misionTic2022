@@ -1,3 +1,5 @@
+@import "../../colors.css";
+
 .o-global-container{
     position: fixed;
     /*opacity: 60%;*/

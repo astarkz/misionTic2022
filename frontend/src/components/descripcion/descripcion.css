@@ -1,24 +1,63 @@
-@import "colors.css";
+@import "../../colors.css";
 
-.descripcionContenedor { 
-    background-color: var(--colorPrimario);
+.o-container-description{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--colorSecundario); 
     padding: 20px;
-    margin: 2em; 
-    border-radius: 0.38em;
+    background: var(--colorPrimario);
+}
+
+.o-btn-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
 h1 {
     font-family: 'Roboto', sans-serif;
-    font-size: 1rem; 
-    padding: 1px;
-    margin: 0px;
+    font-size: 2.15rem;   
     color: var(--colorFont1);
-    text-align: center;
+    text-align: left;
+    padding: 20px 10px 15px 10px;
+    margin: auto;
+    width: 98%;
+    padding-right: 4.5rem;
+    text-align: justify;
+    text-justify: inter-word;  
 }
 
 p {
     font-family: 'Roboto', sans-serif;
-    font-size: 0.625rem;     
+    font-size: 1.05rem;     
     color: var(--colorFont2);
-    text-align: center;
+    text-align: left;
+    padding: 0px 10px 20px 10px;
+    margin: auto;
+    width: 98%;
+    padding-right: 4.5rem;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.o-button-add{
+    border: none;
+    width: 68px;
+    height: 50px;
+    background-color: var(--colorRojo);
+    border-radius: 50%;
+    color: white;
+    font-size: 31px;
+}
+
+.o-textoo{
+    color: var(--colorRojo);
+    text-align: right;
+    font-size: 20px;
+    padding: 10px;
+    margin: auto;
+    width: 90%;
 }

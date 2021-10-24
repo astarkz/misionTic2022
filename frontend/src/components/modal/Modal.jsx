@@ -11,7 +11,8 @@ const Modal = ({ pageTitle, title, labels, tipo }) => {
 
     return (
         <section className="o-global-container d-flex align-items-center justify-content-center p-5" onClick={onClose}>
-            <section className="o-modal-container rounded w-50 mw-51 p-2 modal-close" onClick={e => e.stopPropagation()}>
+            <section className="o-modal-container rounded w-50 mw-51 p-2 modal-close" //onClick={e => e.stopPropagation()}
+            >
 
                 <section className="up-modal-container">
                     <p className="p-0">{pageTitle}</p>
