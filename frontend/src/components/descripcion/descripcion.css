@@ -1,0 +1,24 @@
+@import "colors.css";
+
+.descripcionContenedor { 
+    background-color: var(--colorPrimario);
+    padding: 20px;
+    margin: 2em; 
+    border-radius: 0.38em;
+}
+
+h1 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem; 
+    padding: 1px;
+    margin: 0px;
+    color: var(--colorFont1);
+    text-align: center;
+}
+
+p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.625rem;     
+    color: var(--colorFont2);
+    text-align: center;
+}

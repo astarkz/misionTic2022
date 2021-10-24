@@ -8,3 +8,28 @@ a
 {
     border: none;
 }
+
+
+.o-main-container{
+    border-bottom: solid 1px #C4C4C4;
+}
+
+/* Down part for navBar*/
+.o-button {
+    border:none;
+    border-bottom: solid 1px;
+    transition-duration: 0.4s;
+}
+
+.o-button:target{
+    background-color: white; /* Green */
+    color: #D93025;
+}
+
+.o-navbar:hover {
+    color: #D93025;
+}
+
+.o-down-navbar{
+    background-color:white;
+}

@@ -1,0 +1,13 @@
+@import "colors.css";
+
+.botonSecundarioo{
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--colorPrimario);
+    border: none;
+    color: var(--colorRojo);
+    padding: 5px 12px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.625rem;
+    border-radius: 5px;
+}

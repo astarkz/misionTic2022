@@ -5,7 +5,7 @@ import {Link, NavLink} from 'react-router-dom';
 const Navbar = () => {
     return (
         <div className="o-main-container">
-            <div className="o-navbar-container">
+            <div className="o-navbar navbar justify-content-around nav-link active">
                 <ul>                    
                     <NavLink exact to='/inicio' activeClassName="o-active">Inicio</NavLink>
                     <NavLink exact to='/ventas' activeClassName="o-active">Ventas</NavLink>

@@ -1,0 +1,33 @@
+.o-global-container{
+    position: fixed;
+    /*opacity: 60%;*/
+    z-index: 1000; 
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.o-modal-container{
+
+    width: 50%;
+    height: 60%;
+    /*overflow: hidden;*/     
+    background:white;
+    transition: tranform 2s;
+    transform: translateY(0%);
+}
+/*
+.modal-close{
+    //transform: translateY(-200%);
+}
+*/
+
+.up-modal-container p{
+    color: #666A6E;
+}
+
+    .up-modal-container h1{
+        color:#D93025;
+        }
