@@ -10,9 +10,8 @@
 }
 
 .o-modal-container{
-
-    width: 50%;
-    height: 60%;
+    width: 50vw;
+    height: 60vh;
     /*overflow: hidden;*/     
     background:white;
     transition: tranform 2s;
@@ -28,6 +27,6 @@
     color: #666A6E;
 }
 
-    .up-modal-container h1{
-        color:#D93025;
-        }
+.up-modal-container h1{
+    color:#D93025;
+}

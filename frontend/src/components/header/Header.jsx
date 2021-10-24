@@ -9,9 +9,7 @@ import search from 'img/loupe.png';
 const Header = () => {
     return (
         <section className="o-main-container">
-
             <section className="o-up-navbar">
-
                 <section>
                     <h3>X-force team</h3>
                 </section>
@@ -21,7 +19,6 @@ const Header = () => {
                         <input className="o-input-text" type="text" id="username" name="username " placeholder="Buscar.." />
                         <img className="o-img o-searchh" src={search} alt="Log out" />
                     </form>
-
                 </section>
 
                 <section className="o-user-bar">

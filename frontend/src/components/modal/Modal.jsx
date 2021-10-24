@@ -28,7 +28,6 @@ const Modal = ({ pageTitle, title, labels, tipo }) => {
                             })
                         }
                     </section>
-
                 </section>
 
                 <section className="bottom-modal-container d-flex justify-content-around ">
