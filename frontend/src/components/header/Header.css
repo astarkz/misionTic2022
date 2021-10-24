@@ -1,0 +1,59 @@
+.o-main-container{
+    border-bottom: solid 1px #C4C4C4;
+}
+
+/* Up part for navBar*/
+.o-up-navbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.o-user-bar{
+
+    display: flex;
+    align-items: center;
+}
+
+.o-input-text{
+  width: 15rem;
+  height: 1.5rem;
+  border-radius: 8px;
+  /*background-image: url(../../img/loupe.png)  ;*/
+  border-width: 0.5px;
+  
+}
+.o-searchh{
+  margin-bottom: 2px;
+}
+
+.o-img{
+
+    width: 1rem;
+    height: 1rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+/* Down part for navBar*/
+.o-button {
+    border:none;
+    border-bottom: solid 1px;
+    transition-duration: 0.4s;
+  }
+  
+  
+
+  .o-button:target{
+    background-color: white; /* Green */
+    color: #D93025;
+  }
+
+  .o-navbar:hover {
+    color: #D93025;
+  }
+
+  .o-down-navbar{
+    background-color:white;
+}
+

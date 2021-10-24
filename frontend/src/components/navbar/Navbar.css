@@ -1,0 +1,10 @@
+.o-active
+{
+    color: red;
+    font-weight: bold;
+    border-bottom: red;
+}
+a
+{
+    border: none;
+}
