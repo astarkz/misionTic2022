@@ -7,15 +7,6 @@ const Descripcion = ({ titulo, cuerpo, modal }) => {
     
     const [show, setShow] = useState(false);
     
-
-    // showModal = () => {
-    //     this.setState({ show: true });
-    // };
-
-    // hideModal = () => {
-    //     this.setState({ show: false });
-    // };
-    
     return (
         <section className="o-container-description">
             <section className="o-description-text">
@@ -24,14 +15,15 @@ const Descripcion = ({ titulo, cuerpo, modal }) => {
             </section>
             
             <AgregarSection textoBoton={modal.buttonAdd} buttonAction={() => setShow(true)} />
-            <Modal show={show}
+            <Modal 
                 onClose={()=> setShow(false)}
+                show={show}
                 pageTitle={modal.pageTitle}
                 title={modal.title}
                 labels={modal.labels}
                 tipo={modal.tipo}/>
 
-            
+        
             
         </section>
     )

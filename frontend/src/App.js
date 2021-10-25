@@ -1,6 +1,7 @@
 
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.css';
 import Layout from './layouts/Layout';
 import Inicio from './Pages/Inicio';
 import Usuarios from './Pages/Usuarios';

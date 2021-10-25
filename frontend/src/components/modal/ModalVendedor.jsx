@@ -1,10 +1,7 @@
 import React from 'react'
 import 'components/modal/modal.css'
 
-
-const Modal = ({ show, onClose }) => {
-
-
+const ModalVendedor = (show, onClose) => {
     if (!show) {
         return null;
     }
@@ -16,8 +13,8 @@ const Modal = ({ show, onClose }) => {
             >
 
                 <section className="up-modal-container">
-                    <p className="p-0">Gestión de ventas</p>
-                    <h1 className="p-0 mb-2">Ingresar nueva venta</h1>
+                    <p className="p-0">Gestión de vendedores</p>
+                    <h1 className="p-0 mb-2">Agregar vendedor</h1>
                 </section>
 
                 <section className="center-modal-container">
@@ -25,31 +22,26 @@ const Modal = ({ show, onClose }) => {
 
 
                         <span className="d-flex">
-                            <p>ID venta</p>
-                            <input className="o-input-teext" type="text" id="idVenta"></input>
-                        </span>
-
-                        <span className="d-flex">
-                            <p>Valor total</p>
-                            <input className="o-input-teext" type="text" id="valorTotal"></input>
-                        </span>
-                        <span className="d-flex">
-                            <p>Descripción</p>
-                            <input className="o-input-teext" type="text" id="descripcion"></input>
-                        </span>
-                        <span className="d-flex">
-                            <p>Fecha inicial</p>
-                            <input className="o-input-teext" type="text" id="fechaInicial"></input>
-                        </span>
-                        <span className="d-flex">
-                            <p>Fecha de pago</p>
-                            <input className="o-input-teext" type="text" id="fechaPago"></input>
-                        </span>
-                        <span className="d-flex">
-                            <p>ID del vendedor</p>
+                            <p>ID vendedor</p>
                             <input className="o-input-teext" type="text" id="idVendedor"></input>
                         </span>
 
+                        <span className="d-flex">
+                            <p>Nombre</p>
+                            <input className="o-input-teext" type="text" id="nombreVendedor"></input>
+                        </span>
+                        <span className="d-flex">
+                            <p>Especialidad</p>
+                            <input className="o-input-teext" type="text" id="especialidaVendedor"></input>
+                        </span>
+                        <span className="d-flex">
+                            <p>Fecha de ingreso</p>
+                            <input className="o-input-teext" type="text" id="fechaIngreso"></input>
+                        </span>
+                        <span className="d-flex">
+                            <p>Celular</p>
+                            <input className="o-input-teext" type="text" id="celularVendedor"></input>
+                        </span>
                     </section>
                 </section>
 
@@ -63,4 +55,4 @@ const Modal = ({ show, onClose }) => {
     )
 }
 
-export default Modal
+export default ModalVendedor
