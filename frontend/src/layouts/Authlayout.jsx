@@ -3,9 +3,9 @@ import Login from 'Pages/Login'
 
 const Authlayout = ({children}) => {
     return (
-        <div>
+        <div className='d-flex flex-row'>
             layout de autenticacion
-           <main>{children}</main>
+           <div>{children}</div>
         </div>
     )
 }

@@ -11,7 +11,7 @@ import Vendedores from './Pages/admin/Vendedores';
 import Ventas from './Pages/admin/Ventas';
 import Index from './Pages/Index';
 import Login from './Pages/Login';
-import Registro from './Pages/Registro';
+
 
 
 function App() {
@@ -43,14 +43,11 @@ todas las rutas que vendran dentro, en este caso vendedores, ventas, inicio y us
           </Route>
 
           {/* rutas parte autenticación*/}
-          <Route path={['/login', '/registro']}>
+          <Route path={['/login']}>
             <Authlayout>
               <Switch>
                 <Route path='/login'>
                   <Login />
-                </Route>
-                <Route path='/registro'>
-                  <Registro />
                 </Route>
               </Switch>
             </Authlayout>
