@@ -2,7 +2,7 @@ import React from 'react'
 
 const Publicnavbar = () => {
     return (
-        <div>
+        <div className="bg-primary">
             Navbar public layout
         </div>
     )

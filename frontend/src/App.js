@@ -26,16 +26,16 @@ todas las rutas que vendran dentro, en este caso vendedores, ventas, inicio y us
           <Route path={['/admin/inicio', '/admin/usuarios', '/admin/ventas', '/admin/vendedores']}>
             <Layout>
               <Switch>
-                <Route path='/inicio'>
+                <Route path='/admin/inicio'>
                   <Inicio />
                 </Route>
-                <Route path='/usuarios'>
+                <Route path='/admin/usuarios'>
                   <Usuarios />
                 </Route>
-                <Route path='/ventas'>
+                <Route path='/admin/ventas'>
                   <Ventas />
                 </Route>
-                <Route path='/vendedores'>
+                <Route path='/admin/vendedores'>
                   <Vendedores />
                 </Route>
               </Switch>
