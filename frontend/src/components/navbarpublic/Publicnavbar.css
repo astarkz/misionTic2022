@@ -1,5 +1,89 @@
-.o-btn-publiclogin{
+@import "colors.css";
 
+body {
+  margin: 0px;
+}
+
+ul {
+    list-style: none;
+    width: 100vw;
+    padding: 0px;
+    margin: 0px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: var(--colorPrimario);  
+  border-bottom: 1px solid  var(--colorSecundario);  ;
+  box-shadow: 1px 1px var(--colorSecundario);;
+}
+
+.navbar > li {
+  display: flex;
+  align-items: right;
+}
+
+.logo {
+  height: 70px;
+}
+
+.botonGenerico {
+  border: 0px;
+  padding: 5px 15px;
+  border-radius: 10px;
+  font-weight: bolder;
+}
+.botonGenerico:hover {
+  cursor: pointer;
+  transform: scale(1.01);
+}
+
+.mainButton {
+  background-color: var(--colorRojo);  ;
+  color: var(--colorPrimario);
+}
+
+.secondaryButton {
+  background-color: var(--colorPrimario);
+  color: var(--colorRojo);
+}
+
+
+.buscar {
+  background-color: var(--colorPrimario);
+  border: 1px solid var(--colorTerciario);
+  padding: 4px;
+  border-radius: 5px;
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.buscar:focus-within {
+  border: 1px solid var(--colorSecundario);
+}
+
+.buscar > input {
+  outline: none;
+  border: 0px;
+}
+
+.iconoBusqueda:hover {
+  color: var(--colorTerciario);
+}
+.o-btn-publiclogin{
     height: 2rem;
-        width: 8rem;
+    width: 8rem;
+}
+div{
+    background: var(--colorPrimario);
+    display: flex;
+    justify-content: space-between;
+}
+
+.o-img{
+    height: 40px;
+    width: 40px;
 }

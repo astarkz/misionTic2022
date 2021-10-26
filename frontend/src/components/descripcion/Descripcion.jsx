@@ -21,9 +21,7 @@ const Descripcion = ({ titulo, cuerpo, modal }) => {
                 pageTitle={modal.pageTitle}
                 title={modal.title}
                 labels={modal.labels}
-                tipo={modal.tipo}/>
-
-        
+                tipo={modal.tipo}/>        
             
         </section>
     )
