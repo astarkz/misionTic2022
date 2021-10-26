@@ -7,10 +7,10 @@ const Navbar = () => {
         <div className="o-main-container">
             <div className="o-navbar navbar justify-content-around nav-link active">
                 <ul>                    
-                    <NavLink exact to='/inicio' activeClassName="o-active">Inicio</NavLink>
-                    <NavLink exact to='/ventas' activeClassName="o-active">Ventas</NavLink>
-                    <NavLink exact to='/vendedores' activeClassName="o-active">Vendedores</NavLink>
-                    <NavLink exact to='/usuarios' activeClassName="o-active">Usuarios y Roles</NavLink>
+                    <NavLink exact to='/admin/inicio' activeClassName="o-active">Inicio</NavLink>
+                    <NavLink exact to='/admin/ventas' activeClassName="o-active">Ventas</NavLink>
+                    <NavLink exact to='/admin/vendedores' activeClassName="o-active">Vendedores</NavLink>
+                    <NavLink exact to='/admin/usuarios' activeClassName="o-active">Usuarios y Roles</NavLink>
                     {/* <Link to='/ventas'>Ventas</Link>
                     <Link to='/vendedores'>Vendedores</Link>
                     <Link to='/usuarios'>Roles y Usuarios</Link> */}
