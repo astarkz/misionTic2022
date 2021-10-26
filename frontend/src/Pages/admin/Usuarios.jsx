@@ -16,16 +16,16 @@ const Usuarios = () => {
     return (
         <section className="fondoGris">
 
-            
+
             <Descripcion
-                titulo = {titulo}
+                titulo={titulo}
                 cuerpo={cuerpo}
-                modal = {modal}
+                modal={modal}
             />
             <Tabla
                 tipo="usuario"
                 headers={headers}
-                data={data}/>
+                data={data} />
         </section>
     )
 }
