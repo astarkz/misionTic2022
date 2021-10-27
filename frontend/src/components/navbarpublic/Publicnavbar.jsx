@@ -8,15 +8,15 @@ const Publicnavbar = () => {
         <div className="bg-primary d-flex w-100 align-items-center justify-content-space-between">
             <ul  className="d-flex align-items-center navbar">
                 <li>
-                    <img className="o-img o-searchh" src={user} alt="Log out" />
+                    <img className="oo-img o-searchh" src={user} alt="Log out" />
                 </li>
                 <li>
                     <h3>X-force team</h3>
                 </li>
                 <li>
-                    <div class="buscar">
+                    <div className="o-buscar">
                         <input placeholder="Buscar un producto" />
-                        <i class="fas fa-search botonGenerico iconoBusqueda"></i>
+                        <i className="fas fa-search botonGenerico iconoBusqueda"></i>
                     </div>
                 </li>
                 <li>

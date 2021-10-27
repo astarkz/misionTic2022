@@ -77,13 +77,13 @@ ul {
     height: 2rem;
     width: 8rem;
 }
-div{
+.o-buscar{
     background: var(--colorPrimario);
     display: flex;
     justify-content: space-between;
 }
 
-.o-img{
+.oo-img{
     height: 40px;
     width: 40px;
 }
