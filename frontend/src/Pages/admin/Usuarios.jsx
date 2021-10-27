@@ -6,6 +6,8 @@ import descripcion from 'datasource/descripcion.json'
 import tablaUsuarios from 'datasource/tablaUsuarios.json'
 import modalInfo from 'datasource/modalInfo.json'
 import { useState, useEffect } from 'react';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 const usuariosBackend = [
     {
@@ -83,8 +85,15 @@ const Usuarios = () => {
                 sino, se muestra formulario creacion usuarios*/ }
 
                 {mostrarTabla ? (<TablaUsuarios listaUsuarios={usuarios} />
-                ) : (<FormularioCreacionUsuarios />
+                ) : (<FormularioCreacionUsuarios funcionParaMostrarLaTabla={setMostrarTabla}
+                listaUsuarios={usuarios}
+                funcionParaAgregarUnUsuario={setUsuarios}/>
                 )}
+
+                <ToastContainer
+                position="bottom-center"
+                autoClose={5000}
+                />
             </section>
 
         </section>
@@ -132,20 +141,57 @@ const TablaUsuarios = ({listaUsuarios}) => {
 
 };
 
-const FormularioCreacionUsuarios = () => {
+const FormularioCreacionUsuarios = ({funcionParaMostrarLaTabla,listaUsuarios,funcionParaAgregarUnUsuario}) => {
+
+    const[nombre,setNombre]= useState();
+    const[contraseña,setContraseña]= useState();
+    const[rol,setRol]= useState();
+    const[celular,setCelular]= useState();
+
+    const enviarAlBackend = ()=>{
+
+        console.log("nombre",nombre,"marca",contraseña,"rol",rol,"celular",celular);
+        toast.success('Usuario creado con éxito');
+        funcionParaMostrarLaTabla(true);
+        //los 3 puntos se llama spread operator, basicamente los tres puntos significa
+        //que va a tomar todos los valores que ya tiene, y le va a añadir uno, es parecido al append
+        funcionParaAgregarUnUsuario([...listaUsuarios,
+            {nombre:nombre,contraseña:contraseña,rol:rol,celular:celular},
+        ]);
+
+
+    };
+    
+
     return <div className='d-flex row'>
         <div><h2>Crear nuevo usuario</h2></div>
         <div>
             <form className='form-group col-sm-2 align-items-center'>
-                <label htmlFor='aname'>input1</label>
-                <input className='o-input-usuarios rounded  ' id='aname' type='text' />
-                <label htmlFor='bname'>input2</label>
-                <input className='o-input-usuarios rounded h-50' id='bname' type='text' />
-                <label htmlFor='cname'>input3</label>
-                <input className='o-input-usuarios rounded h-50' id='cname' type='text' />
-                <label htmlFor='dname'>input4</label>
-                <input className='o-input-usuarios rounded h-50' id='dname' type='text' />
-                <button className='btn btn-danger'>Guardar Usuario</button>
+                <label htmlFor='aname'>Nombre 
+                <input className='o-input-usuarios rounded  ' name='aname' type='text' placeholder='Sara Sofia' 
+                value={nombre} onChange={(e)=>{setNombre(e.target.value);}}/>
+                </label>
+               
+                <label htmlFor='bname'>Contraseña
+                <input className='o-input-usuarios rounded ' name='bname' type='password' placeholder='112336' 
+                 value={contraseña} onChange={(e)=>{setContraseña(e.target.value);}}/>
+                </label>
+                
+                <label htmlFor='rolusuario' >Rol
+                <select  value={rol} onChange={(e)=>{setRol(e.target.value);}}
+                name='rolusuario' className='o-input-usuarios rounded'>
+                     <option disabled selected="selected">Seleccione una opción</option>
+                     <option>Administrador</option>
+                     <option>Vendedor</option>
+                     <option>Usuario</option>
+                </select>
+                </label>
+                <label htmlFor='dname'>Celular
+                <input className='o-input-usuarios rounded ' name='dname' type='number' placeholder='316547810' 
+                 value={celular} onChange={(e)=>{setCelular(e.target.value);}}/>
+                </label>
+                
+                <button className='btn btn-danger' onClick={()=>{enviarAlBackend()}} type='button'>Guardar Usuario</button>
             </form>
         </div>
     </div>;
