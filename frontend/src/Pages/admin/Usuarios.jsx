@@ -61,7 +61,7 @@ const Usuarios = () => {
                 modal={modal}
             />
 
-            <section className="bg-white rounded m-4 p-4 d-flex justify-content-space-between   h-100 " >
+            <section className="bg-white rounded m-4 p-4 d-flex justify-content-center row  h-100 " >
 
 
 
