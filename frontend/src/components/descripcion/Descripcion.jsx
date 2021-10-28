@@ -1,11 +1,12 @@
 import React, {useState} from 'react'
 import 'components/descripcion/descripcion.css'
-import AgregarSection from 'components/agregar/AgregarSection'
-import Modal from 'components/modal/Modal'
+// import AgregarSection from 'components/agregar/AgregarSection'
+// import Modal from 'components/modal/Modal'
 
-const Descripcion = ({ titulo, cuerpo, modal }) => {
+//ya no recibe modal
+const Descripcion = ({ titulo, cuerpo }) => {
     
-    const [show, setShow] = useState(false);
+    //const [show, setShow] = useState(false);
     
     return (
         <section className="o-container-description">
@@ -13,16 +14,14 @@ const Descripcion = ({ titulo, cuerpo, modal }) => {
                 <h1>{titulo}</h1>
                 <p>{cuerpo}</p>
             </section>
-            
-            <AgregarSection textoBoton={modal.buttonAdd} buttonAction={() => setShow(true)} />
+            {/*<AgregarSection textoBoton={modal.buttonAdd} buttonAction={() => setShow(true)} />
             <Modal 
                 onClose={()=> setShow(false)}
                 show={show}
                 pageTitle={modal.pageTitle}
                 title={modal.title}
                 labels={modal.labels}
-                tipo={modal.tipo}/>        
-            
+    tipo={modal.tipo}/> */}     
         </section>
     )
 }

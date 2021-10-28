@@ -61,7 +61,7 @@ const Usuarios = () => {
     //si mostrar tabla es true, pongale al texto del boton crear nuevo usuario, sino mostrar usuarios
     useEffect(() => {
         if (mostrarTabla) {
-            setTextoBoton('Crear nuevo usuario +');
+            setTextoBoton('Crear nuevo usuario');
         }
         else {
             setTextoBoton('Mostrar todos los usuarios');
@@ -73,15 +73,15 @@ const Usuarios = () => {
             <Descripcion
                 titulo={titulo}
                 cuerpo={cuerpo}
-                modal={modal}
+                //modal={modal}
             />
             <section className='bg-white rounded m-4 p-4 d-flex justify-content-center row  h-100 ' >
 
-                <button className='btn btn-danger col-lg-12 h-25 w-25 '
+                <button className='btn btn-agregar col-lg-12 h-15 w-25 '
                     onClick={() => { setMostrarTabla(!mostrarTabla); }}>{textoBoton}</button>
 
-                {/* con set cambiamos el estado cada que se le da click */}
-                {/*Si mostrar tabla es true, entonces se muestra tabla usuarios
+                {/* con set cambiamos el estado cada que se le da click */
+                /*Si mostrar tabla es true, entonces se muestra tabla usuarios
                 sino, se muestra formulario creacion usuarios*/ }
 
                 {mostrarTabla ? (<TablaUsuarios listaUsuarios={usuarios} />
@@ -144,7 +144,6 @@ const TablaUsuarios = ({ listaUsuarios }) => {
 const FormularioCreacionUsuarios = ({ funcionParaMostrarLaTabla, listaUsuarios, funcionParaAgregarUnUsuario }) => {
 
     const form = useRef(null);
-   
 
     const submitForm = (e) => {
         e.preventDefault();
@@ -176,7 +175,7 @@ const FormularioCreacionUsuarios = ({ funcionParaMostrarLaTabla, listaUsuarios, 
 
                 <label htmlFor='contrasena'>Contraseña
                     <input className='o-input-usuarios rounded ' name='contrasena' type='password' placeholder='1sd78cafe'
-                         required />
+                        required />
                 </label>
 
                 <label htmlFor='rolusuario' >Rol
@@ -191,9 +190,8 @@ const FormularioCreacionUsuarios = ({ funcionParaMostrarLaTabla, listaUsuarios, 
 
                 <label htmlFor='celular'>Celular
                     <input className='o-input-usuarios rounded ' name='celular' type='number' placeholder='316547810'
-                         required />
+                        required />
                 </label>
-
                 <button type='submit' className='btn btn-danger'  >Guardar Usuario</button>
             </form>
         </div>
