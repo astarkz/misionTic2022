@@ -85,9 +85,11 @@ const Usuarios = () => {
                 sino, se muestra formulario creacion usuarios*/ }
 
                 {mostrarTabla ? (<TablaUsuarios listaUsuarios={usuarios} />
-                ) : (<FormularioCreacionUsuarios funcionParaMostrarLaTabla={setMostrarTabla}
-                    listaUsuarios={usuarios}
-                    funcionParaAgregarUnUsuario={setUsuarios} />
+                ) :
+                    (<FormularioCreacionUsuarios
+                        setMostrarTabla={setMostrarTabla}
+                        listaUsuarios={usuarios}
+                        setUsuarios={setUsuarios} />
                 )}
 
                 <ToastContainer
@@ -141,35 +143,33 @@ const TablaUsuarios = ({ listaUsuarios }) => {
 
 };
 
-const FormularioCreacionUsuarios = ({ funcionParaMostrarLaTabla, listaUsuarios, funcionParaAgregarUnUsuario }) => {
+const FormularioCreacionUsuarios = ({ setMostrarTabla, listaUsuarios, setUsuarios }) => {
 
     const form = useRef(null);
 
     const submitForm = (e) => {
         e.preventDefault();
-        const fd = new FormData(form.current);
-       
+
+        const fd = new FormData(form.current);        
         const nuevoUsuario = {};
         fd.forEach((value,key)=>{
             nuevoUsuario[key]=value;
         });
-        funcionParaMostrarLaTabla(true);
+
+        setMostrarTabla(true);
         toast.success("Usuario agregado con éxito")
 
-        //con spread operator "..." dice que tome todo lo que haya en lista usuarios
-        //y que le añada lo que haya en nuevo usuario, osea otro registro.
-        funcionParaAgregarUnUsuario([...listaUsuarios,nuevoUsuario]);
+        //con spread operator "..." dice que tome todo lo que haya en lista usuarios y que le añada lo que haya en nuevo usuario, osea otro registro.
+        setUsuarios([...listaUsuarios, nuevoUsuario]);
 
     };
-
-
 
     return <div className='d-flex row'>
         <div><h2>Crear nuevo usuario</h2></div>
         <div>
-            <form ref={form} onSubmit={submitForm} className='form-group col-sm-2 align-items-center'>
+            <form ref={form} onSubmit={submitForm} className='form-group col-sm-2 align-items-center justify-center'>
                 <label htmlFor='nombre'>Nombre
-                    <input  className='o-input-usuarios rounded' name='nombre' type='text' placeholder='Sara Sofia'
+                    <input  className='o-input-usuarios rounded' name='nombre' type='text' placeholder='Pepito Perez'
                         required />
                 </label>
 
@@ -180,7 +180,7 @@ const FormularioCreacionUsuarios = ({ funcionParaMostrarLaTabla, listaUsuarios, 
 
                 <label htmlFor='rolusuario' >Rol
                     <select 
-                        name='rolusuario' className='o-input-usuarios rounded' required>
+                        name='rolusuario' className='o-input-usuarios rounded' placeholder='usuario' required>
                         <option disabled selected="selected">Seleccione una opción</option>
                         <option>Administrador</option>
                         <option>Vendedor</option>
