@@ -5,8 +5,8 @@ import 'Pages/styles.css';
 import descripcion from 'datasource/descripcion.json'
 import tablaUsuarios from 'datasource/tablaUsuarios.json'
 import modalInfo from 'datasource/modalInfo.json'
-import { useState, useEffect } from 'react';
-import { ToastContainer,toast } from 'react-toastify';
+import { useState, useEffect, useRef } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
 const usuariosBackend = [
@@ -44,12 +44,12 @@ const Usuarios = () => {
     let [titulo, cuerpo] = Object.values(descripcion[2])
     // let headers = Object.keys(tablaUsuarios[0])
     // let data = Object.values(tablaUsuarios)
-     let modal = modalInfo[2]
+    let modal = modalInfo[2]
 
     const [mostrarTabla, setMostrarTabla] = useState(true);
     const [usuarios, setUsuarios] = useState([]);
     const [textoBoton, setTextoBoton] = useState('');
-    
+
 
     //use effect vacio para traer los datos del backend
 
@@ -77,8 +77,8 @@ const Usuarios = () => {
             />
             <section className='bg-white rounded m-4 p-4 d-flex justify-content-center row  h-100 ' >
 
-            <button className='btn btn-danger col-lg-12 h-25 w-25 ' 
-            onClick={() => { setMostrarTabla(!mostrarTabla); }}>{textoBoton}</button>
+                <button className='btn btn-danger col-lg-12 h-25 w-25 '
+                    onClick={() => { setMostrarTabla(!mostrarTabla); }}>{textoBoton}</button>
 
                 {/* con set cambiamos el estado cada que se le da click */}
                 {/*Si mostrar tabla es true, entonces se muestra tabla usuarios
@@ -86,13 +86,13 @@ const Usuarios = () => {
 
                 {mostrarTabla ? (<TablaUsuarios listaUsuarios={usuarios} />
                 ) : (<FormularioCreacionUsuarios funcionParaMostrarLaTabla={setMostrarTabla}
-                listaUsuarios={usuarios}
-                funcionParaAgregarUnUsuario={setUsuarios}/>
+                    listaUsuarios={usuarios}
+                    funcionParaAgregarUnUsuario={setUsuarios} />
                 )}
 
                 <ToastContainer
-                position="bottom-center"
-                autoClose={5000}
+                    position="bottom-center"
+                    autoClose={5000}
                 />
             </section>
 
@@ -100,7 +100,7 @@ const Usuarios = () => {
 
     );
 };
-const TablaUsuarios = ({listaUsuarios}) => {
+const TablaUsuarios = ({ listaUsuarios }) => {
 
     useEffect(() => {
         console.log('este es el estado de los usuarios en el componente de la tabla: ', listaUsuarios);
@@ -141,57 +141,60 @@ const TablaUsuarios = ({listaUsuarios}) => {
 
 };
 
-const FormularioCreacionUsuarios = ({funcionParaMostrarLaTabla,listaUsuarios,funcionParaAgregarUnUsuario}) => {
+const FormularioCreacionUsuarios = ({ funcionParaMostrarLaTabla, listaUsuarios, funcionParaAgregarUnUsuario }) => {
 
-    const[nombre,setNombre]= useState();
-    const[contraseña,setContraseña]= useState();
-    const[rol,setRol]= useState();
-    const[celular,setCelular]= useState();
+    const form = useRef(null);
+   
 
-    const enviarAlBackend = ()=>{
-
-        console.log("nombre",nombre,"marca",contraseña,"rol",rol,"celular",celular);
-        toast.success('Usuario creado con éxito');
+    const submitForm = (e) => {
+        e.preventDefault();
+        const fd = new FormData(form.current);
+       
+        const nuevoUsuario = {};
+        fd.forEach((value,key)=>{
+            nuevoUsuario[key]=value;
+        });
         funcionParaMostrarLaTabla(true);
-        //los 3 puntos se llama spread operator, basicamente los tres puntos significa
-        //que va a tomar todos los valores que ya tiene, y le va a añadir uno, es parecido al append
-        funcionParaAgregarUnUsuario([...listaUsuarios,
-            {nombre:nombre,contraseña:contraseña,rol:rol,celular:celular},
-        ]);
+        toast.success("Usuario agregado con éxito")
 
+        //con spread operator "..." dice que tome todo lo que haya en lista usuarios
+        //y que le añada lo que haya en nuevo usuario, osea otro registro.
+        funcionParaAgregarUnUsuario([...listaUsuarios,nuevoUsuario]);
 
     };
-    
+
+
 
     return <div className='d-flex row'>
         <div><h2>Crear nuevo usuario</h2></div>
         <div>
-            <form className='form-group col-sm-2 align-items-center'>
-                <label htmlFor='aname'>Nombre 
-                <input className='o-input-usuarios rounded  ' name='aname' type='text' placeholder='Sara Sofia' 
-                value={nombre} onChange={(e)=>{setNombre(e.target.value);}}/>
+            <form ref={form} onSubmit={submitForm} className='form-group col-sm-2 align-items-center'>
+                <label htmlFor='nombre'>Nombre
+                    <input  className='o-input-usuarios rounded' name='nombre' type='text' placeholder='Sara Sofia'
+                        required />
                 </label>
-               
-                <label htmlFor='bname'>Contraseña
-                <input className='o-input-usuarios rounded ' name='bname' type='password' placeholder='112336' 
-                 value={contraseña} onChange={(e)=>{setContraseña(e.target.value);}}/>
+
+                <label htmlFor='contrasena'>Contraseña
+                    <input className='o-input-usuarios rounded ' name='contrasena' type='password' placeholder='1sd78cafe'
+                         required />
                 </label>
-                
+
                 <label htmlFor='rolusuario' >Rol
-                <select  value={rol} onChange={(e)=>{setRol(e.target.value);}}
-                name='rolusuario' className='o-input-usuarios rounded'>
-                     <option disabled selected="selected">Seleccione una opción</option>
-                     <option>Administrador</option>
-                     <option>Vendedor</option>
-                     <option>Usuario</option>
-                </select>
+                    <select 
+                        name='rolusuario' className='o-input-usuarios rounded' required>
+                        <option disabled selected="selected">Seleccione una opción</option>
+                        <option>Administrador</option>
+                        <option>Vendedor</option>
+                        <option>Usuario</option>
+                    </select>
                 </label>
-                <label htmlFor='dname'>Celular
-                <input className='o-input-usuarios rounded ' name='dname' type='number' placeholder='316547810' 
-                 value={celular} onChange={(e)=>{setCelular(e.target.value);}}/>
+
+                <label htmlFor='celular'>Celular
+                    <input className='o-input-usuarios rounded ' name='celular' type='number' placeholder='316547810'
+                         required />
                 </label>
-                
-                <button className='btn btn-danger' onClick={()=>{enviarAlBackend()}} type='button'>Guardar Usuario</button>
+
+                <button type='submit' className='btn btn-danger'  >Guardar Usuario</button>
             </form>
         </div>
     </div>;
