@@ -16,7 +16,7 @@ ul {
   justify-content: space-between;
   padding: 10px 20px;
   background-color: var(--colorPrimario);  
-  border-bottom: 1px solid  var(--colorSecundario);  ;
+  border-bottom: 2px solid  var(--colorTerciario);  ;
   box-shadow: 1px 1px var(--colorSecundario);;
 }
 

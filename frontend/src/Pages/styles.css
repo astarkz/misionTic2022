@@ -2,7 +2,7 @@
 
 .fondoGris{
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     background: var(--colorSecundario);
     height: 100%;
     width: 100%;
@@ -46,4 +46,10 @@
     text-align: center;
     background-color: var(--colorRojo);  ;
     color: var(--colorPrimario);
+}
+
+.contenedorCard{
+    padding: 20px;
+    display: flex;
+    justify-content: space-between
 }

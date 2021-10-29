@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 
 const Publicnavbar = () => {
     return (
-        <div className="m-0">
-            <ul  className="navbar">
+        <>
+            <ul  className="navbar m-0">
                 <li>
                     <img className="oo-img o-searchh" src={user} alt="Log out" />
                 </li>
@@ -30,7 +30,7 @@ const Publicnavbar = () => {
                     </Link>
                 </li>
             </ul>
-        </div>
+        </>
     )
 }
 

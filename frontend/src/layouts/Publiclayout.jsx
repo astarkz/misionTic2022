@@ -5,11 +5,10 @@ import Publicnavbar from '../components/navbarpublic/Publicnavbar';
 
 const Publiclayout = ({children}) => {
     return (
-        <div className="d-flex row justify-content-between bg-warning">
-            <Publicnavbar/>
+        <>
+            <Publicnavbar />
             <main className="fondoGris">{children}</main>
-      
-        </div>
+        </>
     )
 }
 

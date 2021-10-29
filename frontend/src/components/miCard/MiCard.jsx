@@ -6,7 +6,7 @@ import 'components/miCard/micard.css'
 const MiCard = ({titulo, descripcion, imagen, textoBtn}) => {
     return (
         <div>
-            <Card style={{ width: '20rem' }}>
+            <Card style={{ width: '20rem', heigth: '50rem'}}>
                 <div className="contenedorImg">
                     <Card.Img className="fotoPequena" variant="top" src={imagen} />
                 </div>                
