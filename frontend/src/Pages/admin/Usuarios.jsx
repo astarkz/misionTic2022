@@ -8,6 +8,8 @@ import modalInfo from 'datasource/modalInfo.json'
 import { useState, useEffect, useRef } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
+import 'Pages/styles.css'
+import { nanoid } from 'nanoid';
 
 const usuariosBackend = [
     {
@@ -73,29 +75,34 @@ const Usuarios = () => {
             <Descripcion
                 titulo={titulo}
                 cuerpo={cuerpo}
-                //modal={modal}
+            //modal={modal}
             />
-            <section className='bg-white rounded m-4 p-4 d-flex justify-content-center row  h-100 ' >
+            <section className='bg-white rounded m-4 p-4 d-flex flex-column align-items-center col  h-100 ' >
 
-                <button className='btn btn-agregar col-lg-12 h-15 w-25 '
-                    onClick={() => { setMostrarTabla(!mostrarTabla); }}>{textoBoton}</button>
+                <div>
+                    <button className='btn btn-danger w-100 '
+                        onClick={() => { setMostrarTabla(!mostrarTabla); }}>{textoBoton}</button>
+                </div>
 
                 {/* con set cambiamos el estado cada que se le da click */
                 /*Si mostrar tabla es true, entonces se muestra tabla usuarios
                 sino, se muestra formulario creacion usuarios*/ }
 
-                {mostrarTabla ? (<TablaUsuarios listaUsuarios={usuarios} />
-                ) :
-                    (<FormularioCreacionUsuarios
-                        setMostrarTabla={setMostrarTabla}
-                        listaUsuarios={usuarios}
-                        setUsuarios={setUsuarios} />
-                )}
+                <div>
+                    {mostrarTabla ? (<TablaUsuarios listaUsuarios={usuarios} />
+                    ) :
+                        (<FormularioCreacionUsuarios
+                            setMostrarTabla={setMostrarTabla}
+                            listaUsuarios={usuarios}
+                            setUsuarios={setUsuarios} />
+                        )}
 
-                <ToastContainer
-                    position="bottom-center"
-                    autoClose={5000}
-                />
+                    <ToastContainer
+                        position="bottom-center"
+                        autoClose={5000}
+                    />
+
+                </div>
             </section>
 
         </section>
@@ -121,7 +128,7 @@ const TablaUsuarios = ({ listaUsuarios }) => {
 
             {listaUsuarios.map((usuario) => {
                 return (
-                    <tr>
+                    <tr key ={nanoid()}>
                         <td>{usuario.nombre}</td>
                         <td>{usuario.contraseña}</td>
                         <td>{usuario.rol}</td>
@@ -150,10 +157,11 @@ const FormularioCreacionUsuarios = ({ setMostrarTabla, listaUsuarios, setUsuario
     const submitForm = (e) => {
         e.preventDefault();
 
-        const fd = new FormData(form.current);        
+        const fd = new FormData(form.current);
         const nuevoUsuario = {};
-        fd.forEach((value,key)=>{
-            nuevoUsuario[key]=value;
+        fd.forEach((value, key) => {
+            nuevoUsuario[key] = value;
+            console.log("esto son la informacion del nuevo usuario ", nuevoUsuario);
         });
 
         setMostrarTabla(true);
@@ -164,12 +172,12 @@ const FormularioCreacionUsuarios = ({ setMostrarTabla, listaUsuarios, setUsuario
 
     };
 
-    return <div className='d-flex row'>
+    return <div className='d-flex flex-column w-100 align-items-center'>
         <div><h2>Crear nuevo usuario</h2></div>
-        <div>
-            <form ref={form} onSubmit={submitForm} className='form-group col-sm-2 align-items-center justify-center'>
+        <div className="o-forms-user">
+            <form ref={form} onSubmit={submitForm} className='form-group o-forms-style'>
                 <label htmlFor='nombre'>Nombre
-                    <input  className='o-input-usuarios rounded' name='nombre' type='text' placeholder='Pepito Perez'
+                    <input className='o-input-usuarios rounded' name='nombre' type='text' placeholder='Pepito Perez'
                         required />
                 </label>
 
@@ -179,9 +187,9 @@ const FormularioCreacionUsuarios = ({ setMostrarTabla, listaUsuarios, setUsuario
                 </label>
 
                 <label htmlFor='rolusuario' >Rol
-                    <select 
+                    <select
                         name='rolusuario' className='o-input-usuarios rounded' placeholder='usuario' required>
-                        <option disabled selected="selected">Seleccione una opción</option>
+                        <option disabled defaultValue>Seleccione una opción</option>
                         <option>Administrador</option>
                         <option>Vendedor</option>
                         <option>Usuario</option>
