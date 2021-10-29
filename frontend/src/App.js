@@ -11,7 +11,7 @@ import Vendedores from './Pages/admin/Vendedores';
 import Ventas from './Pages/admin/Ventas';
 import Index from './Pages/Index';
 import Login from './Pages/Login';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function App() {

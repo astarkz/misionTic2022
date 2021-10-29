@@ -4,12 +4,12 @@
     display: flex;
     flex-direction: column;
     background: var(--colorSecundario);
-    height: 100vh;
-    overflow-y: hidden;
+    height: 100%;
+    width: 100%;
 }
 .o-index-space{
 
-    height: 100%;
+    height: 100vh;
 }
 
 .o-login-container{

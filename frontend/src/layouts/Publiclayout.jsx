@@ -7,7 +7,7 @@ const Publiclayout = ({children}) => {
     return (
         <div className="d-flex row justify-content-between bg-warning">
             <Publicnavbar/>
-            <main className="h-100 ">{children}</main>
+            <main className="fondoGris">{children}</main>
       
         </div>
     )
