@@ -3,22 +3,24 @@
 
 //se debe modificar el pkg.json para agregar type module para hacer
 import Express from "express";
-import { MongoClient } from "mongodb"; //gestor de la bd, con mongoose o prisma tambien se puede hacer
+import { MongoClient, ObjectId } from "mongodb"; //gestor de la bd, con mongoose o prisma tambien se puede hacer
+import Cors  from 'cors' //import const (pkg de node.js) sirve para que express puede compartir recursos entre varias fuentes
 
 //conexion a la bd
-const stringConexion = 'mongodb+srv://admin:admin@clusterxforce.aktsg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+const stringbaseDeDatos = 'mongodb+srv://admin:admin@clusterxforce.aktsg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
 // crear instancia de mongoclient
-const client = new MongoClient(stringConexion, {
+const client = new MongoClient(stringbaseDeDatos, {
     useNewUrlParser: true, //siempre va segun la documentacion de mongodb
     useUnifiedTopology: true,
 })
 
 //varible global de conexion (hace referencia a la bd), esto luego se cambiara
-let conexion;
+let baseDeDatos;
 
 const app = Express()//nombre app
 app.use(Express.json())//para habilitar json en express, extraer la info util
+app.use(Cors())// use cors, compartir recursos entre multiples servidores
 
 //se necesita crear las rutas del servidor
 //ruta tipo get= read del CRUD, tiene 2 parametro. Primero la ruta, segundo la funcion que se ejecuta cuando alguien hace una peticion a esa ruta (callback)
@@ -32,7 +34,7 @@ app.get('/usuarios', (req, res) => {
         {nombre: 'Laura', contraseña: 'boba', rol: 'usuario', celular: '3693693695' }];*/
     
     //busque la coleccion usuario 
-    conexion.collection('usuario')
+    baseDeDatos.collection('usuarios')
         .find({}) //con x parametros de busqueda, filtros de busqueda
         .limit(50) //limitar a 50 resultados
         .toArray((err, result) => { //convertir array para entienda json
@@ -58,7 +60,7 @@ app.post("/usuarios/nuevo", (req, res) => { //req =request, res = response
     console.log("usuario a crear: ", Object.keys(datosUsuario))
     //validacion de estados, codigos de respuesta servidor
     try {
-        if (
+        if ( //las validaciones que se quieran hacer, este es un ej dummy
             Object.keys(datosUsuario).includes('nombre') &&
             Object.keys(datosUsuario).includes('contrasena') &&
             Object.keys(datosUsuario).includes('rol') &&
@@ -67,7 +69,7 @@ app.post("/usuarios/nuevo", (req, res) => { //req =request, res = response
 
             //implentar codifo para crear usuario en la bd
             //se usan funciones especificas de mongo, en una "archivo" lalamaod usuario agregame los datosUsuario recibidos desde el front
-            conexion.collection('usuario').insertOne(datosUsuario,
+            baseDeDatos.collection('usuarios').insertOne(datosUsuario,
                 (err, result) => { //func anonima de que hacer
                     if (err) { //si error
                         console.error(err)//para ver el error
@@ -87,18 +89,54 @@ app.post("/usuarios/nuevo", (req, res) => { //req =request, res = response
 
 })
 
+//ruta update= patch
+app.patch("/usuarios/editar", (req, res) => {
+    const edicion = req.body;
+    console.log(edicion)
+    const filtroUsuario = { _id: new ObjectId(edicion.id) } //se extrae el id en un nuevo objeto de mongo tipo objectId
+    delete edicion.id; //para que no agregue el id en la actualizacion
+    const operacion = { //operacion atomica
+        $set: edicion //para que haga la edicion
+    }
+    baseDeDatos.collection('usuarios').
+        findOneAndUpdate(filtroUsuario, operacion, //puedo editar 1 o varios parametros
+        {upsert: true, returnOriginal:true},
+        (err, result) => {
+            if (err) {
+                console.error('error acutalizando el usuario: ', err)
+                res.sendStatus(500)
+            } else {
+                console.log('actualizado con exito')
+                res.sendStatus(200)
+            }
+    })
+})
+
+app.delete("/usuarios/eliminar", (req, res) => {
+    const edicion = req.body;
+    const filtroUsuario = { _id: new ObjectId(edicion.id) } //se extrae el id en un nuevo objeto de mongo tipo objectId
+    baseDeDatos.collection('usuarios')
+        .deleteOne(filtroUsuario, (err, resul) => {
+            if (err) {
+                console.error('error eliminando el usuario: ', err)
+                res.sendStatus(500)
+            } else {
+                console.log('eliminado con exito')
+                res.sendStatus(200)
+            }
+        })
+})
 
 //funcion main como en python que la ejecuta y return el listen
 const main = () => {
-
     //este codigo siempre se copia, buscar en la documentacio
     client.connect((err, db) => { //retorna un error y una db
         if (err) {
             console.error('Error conectando a la base de datos')
         }
-        //se le asigna un valor a la let conexion
-        conexion = db.db('xforce')
-        console.log("conexion exitosa")
+        //se le asigna un valor a la let baseDeDatos
+        baseDeDatos = db.db('xforce')
+        console.log("conexion base de datos exitosa")
         return (
             //decirle a la app que este escuchando los eventos, sirve para abrir el canal de comunicacion
             //se pone el  puerto 5000 para express por convencion deberia correr en 5000 o 5050
