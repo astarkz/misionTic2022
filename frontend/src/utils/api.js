@@ -2,7 +2,7 @@
 import axios from "axios";
 
 export const obtenerUsuarios = async (setUsuarios,setEjecutarConsulta) => {
-    const options = { method: 'GET', url: 'https://vast-waters-45728.herokuapp.com/vehicle/' };
+    const options = { method: 'GET', url: 'http://localhost:5000/usuarios' };
     await axios
         .request(options)
         .then(function (response) {
