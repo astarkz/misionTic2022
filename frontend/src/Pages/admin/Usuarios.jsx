@@ -222,7 +222,7 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
                 </form>
             ) : (
                     <>
-                        <td>{usuario._id.slice(15)}</td>
+                        <td>{usuario._id}</td>
                         <td>{usuario.name}</td>
                         <td>{usuario.password}</td>
                         <td>{usuario.rol}</td>
