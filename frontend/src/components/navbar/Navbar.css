@@ -3,6 +3,8 @@
     color: red;
     font-weight: bold;
     border-bottom: red;
+    
+    text-decoration: underline;
 }
 a
 {
@@ -26,10 +28,23 @@ a
     color: #D93025;
 }
 
-.o-navbar:hover {
-    color: #D93025;
-}
+
 
 .o-down-navbar{
     background-color:white;
+}
+li a{
+    text-decoration: none;
+    color: black;
+
+}
+
+li a:hover{
+
+    color:red;
+}
+
+li a:active{
+
+    text-decoration: underline;
 }

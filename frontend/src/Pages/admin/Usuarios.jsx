@@ -196,7 +196,7 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
 
         <tr >
             {edit ? (
-                <form>
+                <>
                     <td>{infoNuevoUsuario._id}</td>
                     <td>
                         <input type='text' value={infoNuevoUsuario.name}
@@ -219,7 +219,7 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
                         />
                     </td>
 
-                </form>
+                </>
             ) : (
                     <>
                         <td>{usuario._id}</td>
