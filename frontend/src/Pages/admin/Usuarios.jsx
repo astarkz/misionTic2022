@@ -3,7 +3,6 @@ import Descripcion from 'components/descripcion/Descripcion'
 import Tabla from 'components/tabla/Tabla';
 import 'Pages/styles.css';
 import descripcion from 'datasource/descripcion.json'
-import tablaUsuarios from 'datasource/tablaUsuarios.json'
 import modalInfo from 'datasource/modalInfo.json'
 import { useState, useEffect, useRef } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
@@ -99,15 +98,12 @@ const TablaUsuarios = ({ listaUsuarios, setEjecutarConsulta }) => {
         console.log('este es el estado de los usuarios en el componente de la tabla: ', listaUsuarios);
     }, [listaUsuarios]);
 
-
-
     return <div>
-
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
+                    <th>ID usuario</th>
+                    <th>Nombre completo</th>
                     <th>Contraseña</th>
                     <th>Rol</th>
                     <th>Celular</th>
@@ -119,16 +115,8 @@ const TablaUsuarios = ({ listaUsuarios, setEjecutarConsulta }) => {
                     return (<FilaUsuario key={nanoid()} usuario={usuario} setEjecutarConsulta={setEjecutarConsulta} />
                     )
                 })}
-                {/* <tr>
-                    <td>maria</td>
-                    <td>123</td>
-                    <td>usuario</td>
-                    <td>321321321</td> 
-                </tr> */}
             </tbody>
         </table>
-
-
     </div>
 
 
@@ -165,9 +153,8 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
                 toast.error('Error modificando el usuario');
                 console.error(error);
             });
-
-
     };
+
     //BORRAR USUARIO ---------------------------------
     const eliminarUsuario = async () => {
         const options = {
@@ -182,18 +169,15 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
             .then(function (response) {
                 console.log(response.data);
                 toast.success('Usuario eliminado con éxito');
-                setEjecutarConsulta(true);
-               
+                setEjecutarConsulta(true);               
             })
             .catch(function (error) {
                 console.error(error);
                 toast.error('Error eliminando el usuario');
             });
-
     };
 
     return (
-
         <tr >
             {edit ? (
                 <>
@@ -218,8 +202,12 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
                             onChange={e => setInfoNuevoUsuario({ ...infoNuevoUsuario, cel: e.target.value })}
                         />
                     </td>
+<<<<<<< HEAD
 
                 </>
+=======
+                </form>
+>>>>>>> 8538269f57e81881f17184d5d0e7ad2770d3ff1b
             ) : (
                     <>
                         <td>{usuario._id}</td>
@@ -232,7 +220,6 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
 
             <td>
                 <div className='d-flex w-100 justify-content-around'>
-
                     {edit ? (
                         <>
                             <Tooltip title='Confirmar edición' arrow>
@@ -351,10 +338,4 @@ const FormularioCreacionUsuarios = ({ setMostrarTabla, listaUsuarios, setUsuario
     </div>;
 };
 
-
-
-{/* <Tabla
-                tipo='usuario'
-                headers={headers}
-                data={data} /> */}
 export default Usuarios
