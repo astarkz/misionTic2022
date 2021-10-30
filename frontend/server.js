@@ -4,10 +4,13 @@
 //se debe modificar el pkg.json para agregar type module para hacer
 import Express from "express";
 import { MongoClient, ObjectId } from "mongodb"; //gestor de la bd, con mongoose o prisma tambien se puede hacer
-import Cors  from 'cors' //import const (pkg de node.js) sirve para que express puede compartir recursos entre varias fuentes
+import Cors from 'cors' //import const (pkg de node.js) sirve para que express puede compartir recursos entre varias fuentes
+import dotenv from 'dotenv' //se agrego libreria para la var de entorno
+
+dotenv.config({ path: './.env' }) //ruta del archivo .env
 
 //conexion a la bd
-const stringbaseDeDatos = 'mongodb+srv://admin:admin@clusterxforce.aktsg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+const stringbaseDeDatos = process.env.DATABASE_URL;
 
 // crear instancia de mongoclient
 const client = new MongoClient(stringbaseDeDatos, {
@@ -137,11 +140,13 @@ const main = () => {
         //se le asigna un valor a la let baseDeDatos
         baseDeDatos = db.db('xforce')
         console.log("conexion base de datos exitosa")
+
+        const port = process.env.PORT;
         return (
             //decirle a la app que este escuchando los eventos, sirve para abrir el canal de comunicacion
             //se pone el  puerto 5000 para express por convencion deberia correr en 5000 o 5050
-            app.listen(5000, () => {
-                console.log("alguien escucha el puerto 5000")
+            app.listen(port, () => {
+                console.log(`alguien escucha el puerto ${port}`)
             }
             )// los console.log se muiestran sobre la terminal de vscode porque esta corriendo en el servidor y NO en el navegador del cliente)
         )
