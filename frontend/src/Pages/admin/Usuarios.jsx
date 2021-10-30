@@ -28,7 +28,7 @@ const Usuarios = () => {
 
     
     useEffect(() => {
-       
+        
         if (ejecutarConsulta) {
             obtenerUsuarios(setUsuarios,setEjecutarConsulta);
                             }
@@ -106,6 +106,7 @@ const TablaUsuarios = ({ listaUsuarios, setEjecutarConsulta }) => {
         <table>
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Nombre</th>
                     <th>Contraseña</th>
                     <th>Rol</th>
@@ -137,7 +138,7 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
     const [edit, setEdit] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
     const [infoNuevoUsuario, setInfoNuevoUsuario] = useState({
-
+        _id: usuario._id,
         name: usuario.name,
         password: usuario.password,
         rol: usuario.rol,
@@ -148,7 +149,7 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
         //enviar la info al backend
         const options = {
             method: 'PATCH',
-            url: 'https://vast-waters-45728.herokuapp.com/vehicle/update/',
+            url: 'http://localhost:5000/usuarios/editar',
             headers: { 'Content-Type': 'application/json' },
             data: { ...infoNuevoUsuario, id: usuario._id },
         };
@@ -171,7 +172,7 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
     const eliminarUsuario = async () => {
         const options = {
             method: 'DELETE',
-            url: 'https://vast-waters-45728.herokuapp.com/vehicle/delete/',
+            url: 'http://localhost:5000/usuarios/eliminar',
             headers: { 'Content-Type': 'application/json' },
             data: { id: usuario._id },
         };
@@ -195,8 +196,8 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
 
         <tr >
             {edit ? (
-
                 <form>
+                    <td>{infoNuevoUsuario._id}</td>
                     <td>
                         <input type='text' value={infoNuevoUsuario.name}
                             onChange={e => setInfoNuevoUsuario({ ...infoNuevoUsuario, name: e.target.value })}
@@ -220,18 +221,15 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
 
                 </form>
             ) : (
-                <>
-                    <td>{usuario.name}</td>
-                    <td>{usuario.password}</td>
-                    <td>{usuario.rol}</td>
-                    <td>{usuario.cel}</td>
-                </>
+                    <>
+                        <td>{usuario._id.slice(15)}</td>
+                        <td>{usuario.name}</td>
+                        <td>{usuario.password}</td>
+                        <td>{usuario.rol}</td>
+                        <td>{usuario.cel}</td>
+                    </>
             )}
 
-            <td>{usuario.name}</td>
-            <td>{usuario.password}</td>
-            <td>{usuario.rol}</td>
-            <td>{usuario.cel}</td>
             <td>
                 <div className='d-flex w-100 justify-content-around'>
 
@@ -293,7 +291,7 @@ const FormularioCreacionUsuarios = ({ setMostrarTabla, listaUsuarios, setUsuario
 
         const options = {
             method: 'POST',
-            url: 'https://vast-waters-45728.herokuapp.com/vehicle/create',
+            url: 'http://localhost:5000/usuarios/nuevo',
             headers: { 'Content-Type': 'application/json' },
             data: {
                 name: nuevoUsuario.name, password: nuevoUsuario.password, rol: nuevoUsuario.rol
@@ -305,15 +303,14 @@ const FormularioCreacionUsuarios = ({ setMostrarTabla, listaUsuarios, setUsuario
             .request(options)
             .then(function (response) {
                 console.log(response.data);
-                toast.success('Vehículo agregado con éxito');
+                toast.success('Usuario agregado con éxito');
             })
             .catch(function (error) {
                 console.error(error);
-                toast.error('Error creando un vehículo');
+                toast.error('Error creando un usuario');
             });
 
         setMostrarTabla(true);
-        toast.success("Usuario agregado con éxito")
 
         //con spread operator "..." dice que tome todo lo que haya en lista usuarios y que le añada lo que haya en nuevo usuario, osea otro registro.
         setUsuarios([...listaUsuarios, nuevoUsuario]);
