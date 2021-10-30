@@ -10,55 +10,38 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import 'Pages/styles.css'
 import { nanoid } from 'nanoid';
+import axios from 'axios';
+import Tooltip from '@mui/material/Tooltip';
+import Dialog from '@mui/material/Dialog';
+import { obtenerUsuarios } from 'utils/api';
 
-const usuariosBackend = [
-    {
-        nombre: 'Juana',
-        contraseña: '1234',
-        rol: 'vendedor',
-        celular: '3213213214'
 
-    },
-    {
-        nombre: 'Sebastian',
-        contraseña: '4567',
-        rol: 'usuario',
-        celular: '3143143146'
-
-    },
-    {
-        nombre: 'Felipe',
-        contraseña: '7894',
-        rol: 'usuario',
-        celular: '3693693695'
-
-    },
-    {
-        nombre: 'Laura',
-        contraseña: 'boba',
-        rol: 'usuario',
-        celular: '3693693695'
-
-    }
-
-];
 const Usuarios = () => {
     let [titulo, cuerpo] = Object.values(descripcion[2])
-    // let headers = Object.keys(tablaUsuarios[0])
-    // let data = Object.values(tablaUsuarios)
     let modal = modalInfo[2]
 
     const [mostrarTabla, setMostrarTabla] = useState(true);
     const [usuarios, setUsuarios] = useState([]);
     const [textoBoton, setTextoBoton] = useState('');
+    const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
 
+
+    
+    useEffect(() => {
+       
+        if (ejecutarConsulta) {
+            obtenerUsuarios(setUsuarios,setEjecutarConsulta);
+                            }
+    }, [ejecutarConsulta]);
 
     //use effect vacio para traer los datos del backend
 
     useEffect(() => {
-        //obtener lista de vehiculos desde el back
-        setUsuarios(usuariosBackend);
-    }, []);
+        //obtener lista de usuarios desde el backend
+        if (mostrarTabla) {
+            setEjecutarConsulta(true);
+        }
+    }, [mostrarTabla]);
 
     //si mostrar tabla es true, pongale al texto del boton crear nuevo usuario, sino mostrar usuarios
     useEffect(() => {
@@ -89,7 +72,7 @@ const Usuarios = () => {
                 sino, se muestra formulario creacion usuarios*/ }
 
                 <div>
-                    {mostrarTabla ? (<TablaUsuarios listaUsuarios={usuarios} />
+                    {mostrarTabla ? (<TablaUsuarios listaUsuarios={usuarios} setEjecutarConsulta={setEjecutarConsulta} />
                     ) :
                         (<FormularioCreacionUsuarios
                             setMostrarTabla={setMostrarTabla}
@@ -109,52 +92,196 @@ const Usuarios = () => {
 
     );
 };
-const TablaUsuarios = ({ listaUsuarios }) => {
+const TablaUsuarios = ({ listaUsuarios, setEjecutarConsulta }) => {
+    const form = useRef(null);
 
     useEffect(() => {
         console.log('este es el estado de los usuarios en el componente de la tabla: ', listaUsuarios);
     }, [listaUsuarios]);
 
-    return <table>
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Contraseña</th>
-                <th>Rol</th>
-                <th>Celular</th>
-            </tr>
-        </thead>
-        <tbody>
 
-            {listaUsuarios.map((usuario) => {
-                return (
-                    <tr key ={nanoid()}>
-                        <td>{usuario.nombre}</td>
-                        <td>{usuario.contraseña}</td>
-                        <td>{usuario.rol}</td>
-                        <td>{usuario.celular}</td>
-                    </tr>
 
-                )
+    return <div>
 
-            })}
-            {/* <tr>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Contraseña</th>
+                    <th>Rol</th>
+                    <th>Celular</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {listaUsuarios.map((usuario) => {
+                    return (<FilaUsuario key={nanoid()} usuario={usuario} setEjecutarConsulta={setEjecutarConsulta} />
+                    )
+                })}
+                {/* <tr>
                     <td>maria</td>
                     <td>123</td>
                     <td>usuario</td>
                     <td>321321321</td> 
                 </tr> */}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
 
+    </div>
+
+
+};
+const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
+
+    const [edit, setEdit] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [infoNuevoUsuario, setInfoNuevoUsuario] = useState({
+
+        name: usuario.name,
+        password: usuario.password,
+        rol: usuario.rol,
+        cel: usuario.cel,
+    });
+    // ACTUALIZAR USUARIO ------------------------------
+    const actualizarUsuario = async () => {
+        //enviar la info al backend
+        const options = {
+            method: 'PATCH',
+            url: 'https://vast-waters-45728.herokuapp.com/vehicle/update/',
+            headers: { 'Content-Type': 'application/json' },
+            data: { ...infoNuevoUsuario, id: usuario._id },
+        };
+        await axios
+            .request(options)
+            .then(function (response) {
+                console.log(response.data);
+                toast.success('Usuario modificado con éxito');
+                setEdit(false);
+                setEjecutarConsulta(true);
+            })
+            .catch(function (error) {
+                toast.error('Error modificando el usuario');
+                console.error(error);
+            });
+
+
+    };
+    //BORRAR USUARIO ---------------------------------
+    const eliminarUsuario = async () => {
+        const options = {
+            method: 'DELETE',
+            url: 'https://vast-waters-45728.herokuapp.com/vehicle/delete/',
+            headers: { 'Content-Type': 'application/json' },
+            data: { id: usuario._id },
+        };
+
+        await axios
+            .request(options)
+            .then(function (response) {
+                console.log(response.data);
+                toast.success('Usuario eliminado con éxito');
+                setEjecutarConsulta(true);
+               
+            })
+            .catch(function (error) {
+                console.error(error);
+                toast.error('Error eliminando el usuario');
+            });
+
+    };
+
+    return (
+
+        <tr >
+            {edit ? (
+
+                <form>
+                    <td>
+                        <input type='text' value={infoNuevoUsuario.name}
+                            onChange={e => setInfoNuevoUsuario({ ...infoNuevoUsuario, name: e.target.value })}
+                        />
+                    </td>
+                    <td>
+                        <input type='password' value={infoNuevoUsuario.password}
+                            onChange={e => setInfoNuevoUsuario({ ...infoNuevoUsuario, password: e.target.value })}
+                        />
+                    </td>
+                    <td>
+                        <input type='text' value={infoNuevoUsuario.rol}
+                            onChange={e => setInfoNuevoUsuario({ ...infoNuevoUsuario, rol: e.target.value })}
+                        />
+                    </td>
+                    <td>
+                        <input type='number' value={infoNuevoUsuario.cel}
+                            onChange={e => setInfoNuevoUsuario({ ...infoNuevoUsuario, cel: e.target.value })}
+                        />
+                    </td>
+
+                </form>
+            ) : (
+                <>
+                    <td>{usuario.name}</td>
+                    <td>{usuario.password}</td>
+                    <td>{usuario.rol}</td>
+                    <td>{usuario.cel}</td>
+                </>
+            )}
+
+            <td>{usuario.name}</td>
+            <td>{usuario.password}</td>
+            <td>{usuario.rol}</td>
+            <td>{usuario.cel}</td>
+            <td>
+                <div className='d-flex w-100 justify-content-around'>
+
+                    {edit ? (
+                        <>
+                            <Tooltip title='Confirmar edición' arrow>
+                                <i
+                                    onClick={() => actualizarUsuario()}
+                                    className='fas fa-check text-success'
+                                />
+                            </Tooltip>
+
+                            <Tooltip title='Cancelar edición' arrow>
+                                <i
+                                    onClick={() => setEdit(!edit)} className='fas fa-ban-alt'
+                                />
+                            </Tooltip>
+                        </>
+                    ) : (
+                        <>
+                            <Tooltip title='Editar usuario' arrow>
+                                <i
+                                    onClick={() => setEdit(!edit)} className='fas fa-pencil-alt'
+                                />
+                            </Tooltip>
+
+                            <Tooltip title='Eliminar usuario' arrow>
+                                <i onClick={() => setOpenDialog(true)} className='fas fa-trash' />
+                            </Tooltip>
+                        </>
+                    )}
+                </div>
+                <Dialog open={openDialog}>
+                    <div>
+                        <h1 className='text-danger w-100'>¿Esta seguro de querer eliminar el usuario??</h1>
+                        <button onClick={() => eliminarUsuario()} className='btn btn-danger m-2 '>Sí</button>
+                        <button onClick={() => setOpenDialog(false)} className='btn btn-light m-2'>No</button>
+                    </div>
+                </Dialog>
+            </td>
+        </tr>
+
+    );
 };
 
 const FormularioCreacionUsuarios = ({ setMostrarTabla, listaUsuarios, setUsuarios }) => {
 
     const form = useRef(null);
 
-    const submitForm = (e) => {
+    const submitForm = async (e) => {
         e.preventDefault();
 
         const fd = new FormData(form.current);
@@ -163,6 +290,27 @@ const FormularioCreacionUsuarios = ({ setMostrarTabla, listaUsuarios, setUsuario
             nuevoUsuario[key] = value;
             console.log("esto son la informacion del nuevo usuario ", nuevoUsuario);
         });
+
+        const options = {
+            method: 'POST',
+            url: 'https://vast-waters-45728.herokuapp.com/vehicle/create',
+            headers: { 'Content-Type': 'application/json' },
+            data: {
+                name: nuevoUsuario.name, password: nuevoUsuario.password, rol: nuevoUsuario.rol
+                , cel: nuevoUsuario.cel
+            },
+        };
+
+        await axios
+            .request(options)
+            .then(function (response) {
+                console.log(response.data);
+                toast.success('Vehículo agregado con éxito');
+            })
+            .catch(function (error) {
+                console.error(error);
+                toast.error('Error creando un vehículo');
+            });
 
         setMostrarTabla(true);
         toast.success("Usuario agregado con éxito")
@@ -176,19 +324,19 @@ const FormularioCreacionUsuarios = ({ setMostrarTabla, listaUsuarios, setUsuario
         <div><h2>Crear nuevo usuario</h2></div>
         <div className="o-forms-user">
             <form ref={form} onSubmit={submitForm} className='form-group o-forms-style'>
-                <label htmlFor='nombre'>Nombre
-                    <input className='o-input-usuarios rounded' name='nombre' type='text' placeholder='Pepito Perez'
+                <label htmlFor='name'>Nombre
+                    <input className='o-input-usuarios rounded' name='name' type='text' placeholder='Pepito Perez'
                         required />
                 </label>
 
-                <label htmlFor='contrasena'>Contraseña
-                    <input className='o-input-usuarios rounded ' name='contrasena' type='password' placeholder='1sd78cafe'
+                <label htmlFor='password'>Contraseña
+                    <input className='o-input-usuarios rounded ' name='password' type='password' placeholder='1sd78cafe'
                         required />
                 </label>
 
-                <label htmlFor='rolusuario' >Rol
+                <label htmlFor='rol' >Rol
                     <select
-                        name='rolusuario' className='o-input-usuarios rounded' placeholder='usuario' required>
+                        name='rol' className='o-input-usuarios rounded' placeholder='usuario' required>
                         <option disabled defaultValue>Seleccione una opción</option>
                         <option>Administrador</option>
                         <option>Vendedor</option>
@@ -196,8 +344,8 @@ const FormularioCreacionUsuarios = ({ setMostrarTabla, listaUsuarios, setUsuario
                     </select>
                 </label>
 
-                <label htmlFor='celular'>Celular
-                    <input className='o-input-usuarios rounded ' name='celular' type='number' placeholder='316547810'
+                <label htmlFor='cel'>Celular
+                    <input className='o-input-usuarios rounded ' name='cel' type='number' placeholder='316547810'
                         required />
                 </label>
                 <button type='submit' className='btn btn-danger'  >Guardar Usuario</button>
