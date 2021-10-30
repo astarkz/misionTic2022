@@ -1,11 +1,334 @@
 import React from 'react'
+import Descripcion from 'components/descripcion/Descripcion'
+import 'Pages/styles.css';
+import descripcion from 'datasource/descripcion.json'
+import { useState, useEffect, useRef } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
+import 'Pages/styles.css'
+import { nanoid } from 'nanoid';
+import axios from 'axios';
+import Tooltip from '@mui/material/Tooltip';
+import Dialog from '@mui/material/Dialog';
+import { obtenerVendedores } from 'utils/api';
 
 const Vendedores = () => {
-    return (
-        <div>
-            <h1>Pagina de Vendedores</h1>
-        </div>
-    )
+    let [titulo, cuerpo] = Object.values(descripcion[1])
+
+    const [mostrarTabla, setMostrarTabla] = useState(true);
+    const [Vendedores, setVendedores] = useState([]);
+    const [textoBoton, setTextoBoton] = useState('');
+    const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
+    
+    useEffect(() => {        
+        if (ejecutarConsulta) {
+                obtenerVendedores(setVendedores, setEjecutarConsulta);
+        }
+    }, [ejecutarConsulta]); //use effect vacio para traer los datos del backend
+
+    useEffect(() => {
+        //obtener lista de Vendedores desde el backend
+        if (mostrarTabla) {
+            setEjecutarConsulta(true);
+        }
+    }, [mostrarTabla]);
+
+    //si mostrar tabla es true, pongale al texto del boton crear nuevo Vendedor, sino mostrar Vendedores
+    useEffect(() => {
+        if (mostrarTabla) {
+            setTextoBoton('Crear nuevo Vendedor');
+        } else {
+            setTextoBoton('Mostrar todos los Vendedores');
+        }
+    }, [mostrarTabla]);
+
+            return (
+            <section className='fondoGris'>
+                <Descripcion
+                    titulo={titulo}
+                    cuerpo={cuerpo}
+                //modal={modal}
+                />
+                <section className='bg-white rounded m-4 p-4 d-flex flex-column align-items-center col  h-100 ' >
+
+                    <div>
+                        <button className='btn btn-danger w-100 '
+                            onClick={() => { setMostrarTabla(!mostrarTabla); }}>{textoBoton}</button>
+                    </div>
+
+                    {/* con set cambiamos el estado cada que se le da click */
+                /*Si mostrar tabla es true, entonces se muestra tabla Vendedores
+                sino, se muestra formulario creacion Vendedores*/ }
+
+                    <div>
+                        {mostrarTabla ? (<TablaVendedores listaVendedores={Vendedores} setEjecutarConsulta={setEjecutarConsulta} />
+                        ) :
+                            (<FormularioCreacionVendedores
+                                setMostrarTabla={setMostrarTabla}
+                                listaVendedores={Vendedores}
+                                setVendedores={setVendedores} />
+                            )}
+
+                        <ToastContainer
+                            position="bottom-center"
+                            autoClose={5000}
+                        />
+
+                    </div>
+                </section>
+
+            </section>
+
+            );
 }
+
+const TablaVendedores = ({ listaVendedores, setEjecutarConsulta }) => {
+    const form = useRef(null);
+
+    useEffect(() => {
+        console.log('este es el estado de los Vendedores en el componente de la tabla: ', listaVendedores);
+    }, [listaVendedores]);
+
+
+
+    return <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Contraseña</th>
+                    <th>Rol</th>
+                    <th>Celular</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {listaVendedores.map((Vendedor) => {
+                    return (<FilaVendedor key={nanoid()} Vendedor={Vendedor} setEjecutarConsulta={setEjecutarConsulta} />
+                    )
+                })}
+            </tbody>
+        </table>
+    </div>
+
+
+};
+const FilaVendedor = ({ Vendedor, setEjecutarConsulta }) => {
+
+    const [edit, setEdit] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [infoNuevoVendedor, setInfoNuevoVendedor] = useState({
+        _id: Vendedor._id,
+        name: Vendedor.name,
+        password: Vendedor.password,
+        rol: Vendedor.rol,
+        cel: Vendedor.cel,
+    });
+    // ACTUALIZAR Vendedor ------------------------------
+    const actualizarVendedor = async () => {
+        //enviar la info al backend
+        const options = {
+            method: 'PATCH',
+            url: 'http://localhost:5000/Vendedores/editar',
+            headers: { 'Content-Type': 'application/json' },
+            data: { ...infoNuevoVendedor, id: Vendedor._id },
+        };
+        await axios
+            .request(options)
+            .then(function (response) {
+                console.log(response.data);
+                toast.success('Vendedor modificado con éxito');
+                setEdit(false);
+                setEjecutarConsulta(true);
+            })
+            .catch(function (error) {
+                toast.error('Error modificando el Vendedor');
+                console.error(error);
+            });
+
+
+    };
+    //BORRAR Vendedor ---------------------------------
+    const eliminarVendedor = async () => {
+        const options = {
+            method: 'DELETE',
+            url: 'http://localhost:5000/Vendedores/eliminar',
+            headers: { 'Content-Type': 'application/json' },
+            data: { id: Vendedor._id },
+        };
+
+        await axios
+            .request(options)
+            .then(function (response) {
+                console.log(response.data);
+                toast.success('Vendedor eliminado con éxito');
+                setEjecutarConsulta(true);
+
+            })
+            .catch(function (error) {
+                console.error(error);
+                toast.error('Error eliminando el vendedor');
+            });
+
+    };
+
+    return (
+        <tr >
+            {edit ? (
+                <form>
+                    <td>{infoNuevoVendedor._id}</td>
+                    <td>
+                        <input type='text' value={infoNuevoVendedor.name}
+                            onChange={e => setInfoNuevoVendedor({ ...infoNuevoVendedor, name: e.target.value })}
+                        />
+                    </td>
+                    <td>
+                        <input type='password' value={infoNuevoVendedor.password}
+                            onChange={e => setInfoNuevoVendedor({ ...infoNuevoVendedor, password: e.target.value })}
+                        />
+                    </td>
+                    <td>
+                        <input type='text' value={infoNuevoVendedor.rol}
+                            onChange={e => setInfoNuevoVendedor({ ...infoNuevoVendedor, rol: e.target.value })}
+                        />
+                    </td>
+                    <td>
+                        <input type='number' value={infoNuevoVendedor.cel}
+                            onChange={e => setInfoNuevoVendedor({ ...infoNuevoVendedor, cel: e.target.value })}
+                        />
+                    </td>
+
+                </form>
+            ) : (
+                <>
+                    <td>{Vendedor._id}</td>
+                    <td>{Vendedor.name}</td>
+                    <td>{Vendedor.password}</td>
+                    <td>{Vendedor.rol}</td>
+                    <td>{Vendedor.cel}</td>
+                </>
+            )}
+
+            <td>
+                <div className='d-flex w-100 justify-content-around'>
+
+                    {edit ? (
+                        <>
+                            <Tooltip title='Confirmar edición' arrow>
+                                <i
+                                    onClick={() => actualizarVendedor()}
+                                    className='fas fa-check text-success'
+                                />
+                            </Tooltip>
+
+                            <Tooltip title='Cancelar edición' arrow>
+                                <i
+                                    onClick={() => setEdit(!edit)} className='fas fa-ban-alt'
+                                />
+                            </Tooltip>
+                        </>
+                    ) : (
+                        <>
+                            <Tooltip title='Editar Vendedor' arrow>
+                                <i
+                                    onClick={() => setEdit(!edit)} className='fas fa-pencil-alt'
+                                />
+                            </Tooltip>
+
+                            <Tooltip title='Eliminar Vendedor' arrow>
+                                <i onClick={() => setOpenDialog(true)} className='fas fa-trash' />
+                            </Tooltip>
+                        </>
+                    )}
+                </div>
+                <Dialog open={openDialog}>
+                    <div>
+                        <h1 className='text-danger w-100'>¿Esta seguro de querer eliminar el Vendedor??</h1>
+                        <button onClick={() => eliminarVendedor()} className='btn btn-danger m-2 '>Sí</button>
+                        <button onClick={() => setOpenDialog(false)} className='btn btn-light m-2'>No</button>
+                    </div>
+                </Dialog>
+            </td>
+        </tr>
+
+    );
+};
+
+const FormularioCreacionVendedores = ({ setMostrarTabla, listaVendedores, setVendedores }) => {
+
+    const form = useRef(null);
+
+    const submitForm = async (e) => {
+        e.preventDefault();
+
+        const fd = new FormData(form.current);
+        const nuevoVendedor = {};
+        fd.forEach((value, key) => {
+            nuevoVendedor[key] = value;
+            console.log("esto son la informacion del nuevo Vendedor ", nuevoVendedor);
+        });
+
+        const options = {
+            method: 'POST',
+            url: 'http://localhost:5000/Vendedores/nuevo',
+            headers: { 'Content-Type': 'application/json' },
+            data: {
+                name: nuevoVendedor.name, password: nuevoVendedor.password, rol: nuevoVendedor.rol
+                , cel: nuevoVendedor.cel
+            },
+        };
+
+        await axios
+            .request(options)
+            .then(function (response) {
+                console.log(response.data);
+                toast.success('Vendedor agregado con éxito');
+            })
+            .catch(function (error) {
+                console.error(error);
+                toast.error('Error creando un Vendedor');
+            });
+
+        setMostrarTabla(true);
+
+        //con spread operator "..." dice que tome todo lo que haya en lista Vendedores y que le añada lo que haya en nuevo Vendedor, osea otro registro.
+        setVendedores([...listaVendedores, nuevoVendedor]);
+
+    };
+
+    return <div className='d-flex flex-column w-100 align-items-center'>
+        <div><h2>Crear nuevo vendedor</h2></div>
+        <div className="o-forms-user">
+            <form ref={form} onSubmit={submitForm} className='form-group o-forms-style'>
+                <label htmlFor='name'>Nombre
+                    <input className='o-input-Vendedores rounded' name='name' type='text' placeholder='Pepito Perez'
+                        required />
+                </label>
+
+                <label htmlFor='password'>Contraseña
+                    <input className='o-input-Vendedores rounded ' name='password' type='password' placeholder='1sd78cafe'
+                        required />
+                </label>
+
+                <label htmlFor='rol' >Rol
+                    <select
+                        name='rol' className='o-input-Vendedores rounded' placeholder='Vendedor' required>
+                        <option disabled defaultValue>Seleccione una opción</option>
+                        <option>Administrador</option>
+                        <option>Vendedor</option>
+                        <option>Usuario</option>
+                    </select>
+                </label>
+
+                <label htmlFor='cel'>Celular
+                    <input className='o-input-Vendedores rounded ' name='cel' type='number' placeholder='316547810'
+                        required />
+                </label>
+                <button type='submit' className='btn btn-danger'  >Guardar Vendedor</button>
+            </form>
+        </div>
+    </div>;
+};
 
 export default Vendedores
