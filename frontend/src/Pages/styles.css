@@ -58,3 +58,8 @@
 
     max-inline-size: min-content;
 }
+
+.tabla_grande{
+    width: 100%;
+    justify-content: space-between
+}

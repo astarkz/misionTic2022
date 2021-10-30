@@ -70,7 +70,7 @@ const Usuarios = () => {
                 /*Si mostrar tabla es true, entonces se muestra tabla usuarios
                 sino, se muestra formulario creacion usuarios*/ }
 
-                <div>
+                <div className="tabla_grande" >
                     {mostrarTabla ? (<TablaUsuarios listaUsuarios={usuarios} setEjecutarConsulta={setEjecutarConsulta} />
                     ) :
                         (<FormularioCreacionUsuarios
@@ -98,8 +98,8 @@ const TablaUsuarios = ({ listaUsuarios, setEjecutarConsulta }) => {
         console.log('este es el estado de los usuarios en el componente de la tabla: ', listaUsuarios);
     }, [listaUsuarios]);
 
-    return <div>
-        <table>
+    return (<div>
+        <table className="tabla_grande">
             <thead>
                 <tr>
                     <th>ID usuario</th>
@@ -117,9 +117,7 @@ const TablaUsuarios = ({ listaUsuarios, setEjecutarConsulta }) => {
                 })}
             </tbody>
         </table>
-    </div>
-
-
+    </div>)
 };
 const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
 
@@ -202,12 +200,7 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
                             onChange={e => setInfoNuevoUsuario({ ...infoNuevoUsuario, cel: e.target.value })}
                         />
                     </td>
-<<<<<<< HEAD
-
                 </>
-=======
-                </form>
->>>>>>> 8538269f57e81881f17184d5d0e7ad2770d3ff1b
             ) : (
                     <>
                         <td>{usuario._id}</td>

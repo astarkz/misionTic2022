@@ -53,7 +53,7 @@ const Vendedores = () => {
                         <button className='btn btn-danger w-100 '
                             onClick={() => { setMostrarTabla(!mostrarTabla); }}>{textoBoton}</button>
                     </div>
-                    <div>
+                        <div className="tabla_grande" >
                         {mostrarTabla ? (<TablaVendedores listaVendedores={Vendedores} setEjecutarConsulta={setEjecutarConsulta} />
                         ) :
                             (<FormularioCreacionVendedores
@@ -81,7 +81,7 @@ const TablaVendedores = ({ listaVendedores, setEjecutarConsulta }) => {
     }, [listaVendedores]);
 
     return <div>
-        <table>
+        <table className="tabla_grande" >
             <thead>
                 <tr>
                     <th>ID vendedor</th>
@@ -159,7 +159,7 @@ const FilaVendedor = ({ Vendedor, setEjecutarConsulta }) => {
     return (
         <tr >
             {edit ? (
-                <form>
+                <>
                     <td>{infoNuevoVendedor._id}</td>
                     <td>
                         <input type='text' value={infoNuevoVendedor.name}
@@ -181,7 +181,7 @@ const FilaVendedor = ({ Vendedor, setEjecutarConsulta }) => {
                             onChange={e => setInfoNuevoVendedor({ ...infoNuevoVendedor, fecha_ingreso: e.target.value })}
                         />
                     </td>
-                </form>
+                </>
             ) : (
                 <>
                     <td>{Vendedor._id}</td>
@@ -283,7 +283,7 @@ const FormularioCreacionVendedores = ({ setMostrarTabla, listaVendedores, setVen
         <div><h2>Crear nuevo vendedor</h2></div>
         <div className="o-forms-user">
             <form ref={form} onSubmit={submitForm} className='form-group o-forms-style'>
-                <label htmlFor='name'>Nombre completo
+                <label  htmlFor='name'>Nombre completo
                     <input className='o-input-Vendedores rounded' name='name' type='text' placeholder='Pepito Perez'
                         required />
                 </label>

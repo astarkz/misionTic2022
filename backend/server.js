@@ -96,9 +96,10 @@ app.post("/usuarios/nuevo", (req, res) => { //req =request, res = response
 //ruta update= patch
 app.patch("/usuarios/editar", (req, res) => {
     const edicion = req.body;
+    delete edicion.id; //para que no agregue el id en la actualizacion 
+    const filtroUsuario = { _id: new ObjectId(edicion._id) } //se extrae el id en un nuevo objeto de mongo tipo objectId
+    delete edicion._id;
     console.log(edicion)
-    const filtroUsuario = { _id: new ObjectId(edicion.id) } //se extrae el id en un nuevo objeto de mongo tipo objectId
-    delete edicion.id; //para que no agregue el id en la actualizacion
     const operacion = { //operacion atomica
         $set: edicion //para que haga la edicion
     }
@@ -107,7 +108,7 @@ app.patch("/usuarios/editar", (req, res) => {
         {upsert: true, returnOriginal:true},
         (err, result) => {
             if (err) {
-                console.error('error acutalizando el usuario: ', err)
+                console.error('error actualizando el usuario: ', err)
                 res.sendStatus(500)
             } else {
                 console.log('actualizado con exito')
@@ -178,10 +179,11 @@ app.post("/Vendedores/nuevo", (req, res) => {
 //ruta update= patch
 app.patch("/Vendedores/editar", (req, res) => {
     const edicion = req.body;
-    console.log(edicion)
-    const filtroVendedor = { _id: new ObjectId(edicion.id)}
     delete edicion.id; 
-    const operacion = {$set: edicion }
+    const filtroUsuario = { _id: new ObjectId(edicion._id) }
+    delete edicion._id;
+    console.log(edicion)
+    const operacion = { $set: edicion }
     baseDeDatos.collection('Vendedores').
         findOneAndUpdate(filtroVendedor, operacion, 
             { upsert: true, returnOriginal: true },
