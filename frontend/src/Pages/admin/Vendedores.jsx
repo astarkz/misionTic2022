@@ -215,7 +215,7 @@ const FilaVendedor = ({ Vendedor, setEjecutarConsulta }) => {
 
                             <Tooltip title='Cancelar edición' arrow>
                                 <i
-                                    onClick={() => setEdit(!edit)} className='fas fa-ban'
+                                    onClick={() => setEdit(!edit)} className='fas fa-ban text-danger'
                                 />
                             </Tooltip>
                         </>
@@ -223,12 +223,12 @@ const FilaVendedor = ({ Vendedor, setEjecutarConsulta }) => {
                         <>
                             <Tooltip title='Editar Vendedor' arrow>
                                 <i
-                                    onClick={() => setEdit(!edit)} className='fas fa-pencil-alt'
+                                    onClick={() => setEdit(!edit)} className='fas fa-pencil-alt text-primary'
                                 />
                             </Tooltip>
 
                             <Tooltip title='Eliminar Vendedor' arrow>
-                                <i onClick={() => setOpenDialog(true)} className='fas fa-trash' />
+                                <i onClick={() => setOpenDialog(true)} className='fas fa-trash text-danger' />
                             </Tooltip>
                         </>
                     )}
