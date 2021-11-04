@@ -224,7 +224,7 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
 
                             <Tooltip title='Cancelar edición' arrow>
                                 <i
-                                    onClick={() => setEdit(!edit)} className='fas fa-ban'
+                                    onClick={() => setEdit(!edit)} className='fas fa-ban text-danger'
                                 />
                             </Tooltip>
                         </>
@@ -232,12 +232,12 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
                         <>
                             <Tooltip title='Editar usuario' arrow>
                                 <i
-                                    onClick={() => setEdit(!edit)} className='fas fa-pencil-alt'
+                                    onClick={() => setEdit(!edit)} className='fas fa-pencil-alt text-primary'
                                 />
                             </Tooltip>
 
                             <Tooltip title='Eliminar usuario' arrow>
-                                <i onClick={() => setOpenDialog(true)} className='fas fa-trash' />
+                                <i onClick={() => setOpenDialog(true)} className='fas fa-trash text-danger' />
                             </Tooltip>
                         </>
                     )}
