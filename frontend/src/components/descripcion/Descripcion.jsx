@@ -13,15 +13,7 @@ const Descripcion = ({ titulo, cuerpo }) => {
             <section className="o-description-text">
                 <h1>{titulo}</h1>
                 <p>{cuerpo}</p>
-            </section>
-            {/*<AgregarSection textoBoton={modal.buttonAdd} buttonAction={() => setShow(true)} />
-            <Modal 
-                onClose={()=> setShow(false)}
-                show={show}
-                pageTitle={modal.pageTitle}
-                title={modal.title}
-                labels={modal.labels}
-    tipo={modal.tipo}/> */}     
+            </section>    
         </section>
     )
 }

@@ -1,5 +1,4 @@
 import React from 'react'
-import Descripcion from 'components/descripcion/Descripcion'
 import 'Pages/styles.css';
 import descripcion from 'datasource/descripcion.json'
 import { useState, useEffect, useRef } from 'react';
@@ -11,6 +10,9 @@ import axios from 'axios';
 import Tooltip from '@mui/material/Tooltip';
 import Dialog from '@mui/material/Dialog';
 import { obtenerVendedores } from 'utils/api';
+import Form from 'react-bootstrap/Form'
+import { Row, Col } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button'
 
 const Vendedores = () => {
     let [titulo, cuerpo] = Object.values(descripcion[1])
@@ -19,6 +21,7 @@ const Vendedores = () => {
     const [Vendedores, setVendedores] = useState([]);
     const [textoBoton, setTextoBoton] = useState('');
     const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
+    const [colorBoton, setColorBoton] = useState('danger');
     
     useEffect(() => {        
         if (ejecutarConsulta) {
@@ -35,40 +38,43 @@ const Vendedores = () => {
     useEffect(() => {
         if (mostrarTabla) {
             setTextoBoton('Crear nuevo vendedor');
+            setColorBoton('danger');
         } else {
-            setTextoBoton('Mostrar todos los vendedores');
+            setTextoBoton('Mostrar tabla de vendedores');
+            setColorBoton('outline-danger');
         }
     }, [mostrarTabla]);
 
-            return (
-            <section className='fondoGris'>
-                <Descripcion
-                    titulo={titulo}
-                    cuerpo={cuerpo}
-                //modal={modal}
-                />
-                <section className='bg-white rounded m-4 p-4 d-flex flex-column align-items-center col  h-100 ' >
-
-                    <div>
-                        <button className='btn btn-danger w-100 '
-                            onClick={() => { setMostrarTabla(!mostrarTabla); }}>{textoBoton}</button>
-                    </div>
-                        <div className="tabla_grande" >
-                        {mostrarTabla ? (<TablaVendedores listaVendedores={Vendedores} setEjecutarConsulta={setEjecutarConsulta} />
-                        ) :
-                            (<FormularioCreacionVendedores
-                                setMostrarTabla={setMostrarTabla}
-                                listaVendedores={Vendedores}
-                                setVendedores={setVendedores} />
-                            )}
-                        <ToastContainer
-                            position="bottom-center"
-                            autoClose={5000}
-                        />
+        return (
+        <section className='fondoGris'>
+                <section className="o-container-description">
+                    <section className="o-description-text">
+                        <h1>{titulo}</h1>
+                        <p>{cuerpo}</p>
+                    </section>
+                    <div className='w-50 justify-content-end'>
+                        <Button className="p-4  rounded-circle" roundedCircle variant={colorBoton}
+                        onClick={() => { setMostrarTabla(!mostrarTabla); }}>{textoBoton}</Button>
                     </div>
                 </section>
-
+                
+            <section className= 'bg-white rounded m-4 p-4 d-flex flex-column align-items-center col  h-100 ' >                    
+                    <div className="tabla_grande" >
+                    {mostrarTabla ? (<TablaVendedores listaVendedores={Vendedores} setEjecutarConsulta={setEjecutarConsulta} />
+                    ) :
+                        (<FormularioCreacionVendedores
+                            setMostrarTabla={setMostrarTabla}
+                            listaVendedores={Vendedores}
+                            setVendedores={setVendedores} />
+                        )}
+                    <ToastContainer
+                        position="bottom-center"
+                        autoClose={5000}
+                    />
+                </div>
             </section>
+
+        </section>
 
             );
 }
@@ -80,8 +86,11 @@ const TablaVendedores = ({ listaVendedores, setEjecutarConsulta }) => {
         console.log('este es el estado de los Vendedores en el componente de la tabla: ', listaVendedores);
     }, [listaVendedores]);
 
-    return <div>
-        <table className="tabla_grande" >
+    return <div className="p-3" >
+        <div>
+            <h2>Registro de vendedores</h2>
+        </div>
+        <table className="tabla_grande" >       
             <thead>
                 <tr>
                     <th>ID vendedor</th>
@@ -280,36 +289,44 @@ const FormularioCreacionVendedores = ({ setMostrarTabla, listaVendedores, setVen
     };
 
     return <div className='d-flex flex-column w-100 align-items-center'>
-        <div><h2>Crear nuevo vendedor</h2></div>
-        <div className="o-forms-user">
-            <form ref={form} onSubmit={submitForm} className='form-group o-forms-style'>
-                <label  htmlFor='name'>Nombre completo
-                    <input className='o-input-Vendedores rounded' name='name' type='text' placeholder='Pepito Perez'
-                        required />
-                </label>
+        <div className="m-3"><h2>Crear nuevo vendedor</h2></div>
+        <Form className='d-flex flex-column w-50 align-items-left' ref={form} onSubmit={submitForm} >
+                            
+            <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={3} htmlFor='name'> Nombre completo </Form.Label>
+                <Col sm={9}>
+                    <Form.Control name='name' type='text' placeholder='Ingresa tu nombre aqui' required/>
+                </Col>
+            </Form.Group>
 
-                <label htmlFor='especialidad'>Especialidad
-                    <select
-                        name='especialidad' className='o-input-Vendedores rounded' placeholder='Figuras de colección...' required>
-                        <option disabled defaultValue>Seleccione una opción</option>
-                        <option>Figuras de colección DC</option>
-                        <option>Figuras de colección Marvel</option>
-                        <option>Otras figuras de colección</option>
-                    </select>
-                </label>
+            <Form.Group as={Row} className="mb-3" >
+                <Form.Label column sm={3} htmlFor='especialidad'> Especialidad </Form.Label>
+                <Col sm={9}>
+                    <Form.Select name='especialidad' required>
+                        <option value="Ninguno" disabled >Seleccione una opción</option>
+                        <option value="DC">Figuras de colección DC</option>
+                        <option value="Marvel">Figuras de colección Marvel</option>
+                        <option value="Otras">Otras figuras de colección</option>
+                    </Form.Select>
+                </Col>
+            </Form.Group>
+            
+            <Form.Group as={Row} className="mb-3" >
+                <Form.Label column sm={3} htmlFor='celular'> Celular </Form.Label>
+                <Col sm={9}>
+                    <Form.Control name='celular' type='phone' placeholder='Ingresa tu telefono aqui' required />
+                </Col>
+            </Form.Group>
 
-                <label htmlFor='celular' >Celular
-                    <input className='o-input-Vendedores rounded ' name='celular' type='phone' placeholder='301-234-5678'
-                        required />
-                </label>
+            <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={3} htmlFor='fecha_ingreso'> Fecha de ingreso </Form.Label>
+                <Col sm={9}>
+                    <Form.Control name='fecha_ingreso' type='date' placeholder='dd/mm/aaaa' required  />
+                </Col>
+            </Form.Group>
 
-                <label htmlFor='fecha_ingreso'>Fecha de ingreso
-                    <input className='o-input-Vendedores rounded ' name='fecha_ingreso' type='date' placeholder='dd/mm/aaaa'
-                        required />
-                </label>
-                <button type='submit' className='btn btn-danger'  >Guardar Vendedor</button>
-            </form>
-        </div>
+            <button type='submit' className='btn btn-danger'  >Guardar Vendedor</button>            
+        </Form>
     </div>;
 };
 

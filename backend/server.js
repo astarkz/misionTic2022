@@ -140,7 +140,7 @@ app.get('/Vendedores', (req, res) => {
     
     baseDeDatos.collection('Vendedores')
         .find({}) 
-        .limit(10) 
+        .limit(20) 
         .toArray((err, result) => { 
             if (err) {
                 res.status(400).send("Error consultando los Vendedores")
@@ -180,7 +180,7 @@ app.post("/Vendedores/nuevo", (req, res) => {
 app.patch("/Vendedores/editar", (req, res) => {
     const edicion = req.body;
     delete edicion.id; 
-    const filtroUsuario = { _id: new ObjectId(edicion._id) }
+    const filtroVendedor = { _id: new ObjectId(edicion._id) }
     delete edicion._id;
     console.log(edicion)
     const operacion = { $set: edicion }

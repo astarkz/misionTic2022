@@ -1,9 +1,10 @@
 @import "../../colors.css";
 
 .o-container-description{
-    display: flex;
+    display: grid;
     align-items: center;
-    justify-content: space-evenly;
+    grid-template-columns: 85% 15%;
+    grid-gap: 10px;
     margin: 20px 20px 0px 20px;
     border-radius: 10px;
     border: 1px solid var(--colorSecundario); 
@@ -25,9 +26,15 @@ h1 {
     padding: 20px 10px 15px 10px;
     margin: auto;
     width: 98%;
-    padding-right: 4.5rem;
+    padding-right: 3.5rem;
     text-align: justify;
     text-justify: inter-word;  
+}
+
+h2, h3, h4 {
+    font-family: 'Roboto', sans-serif; 
+    color: var(--colorFont1);
+    text-align: left;  
 }
 
 p {
@@ -38,19 +45,9 @@ p {
     padding: 0px 10px 20px 10px;
     margin: auto;
     width: 98%;
-    padding-right: 4.5rem;
+    padding-right: 3.5rem;
     text-align: justify;
     text-justify: inter-word;
-}
-
-.o-button-add{
-    border: none;
-    width: 68px;
-    height: 50px;
-    background-color: var(--colorRojo);
-    border-radius: 50%;
-    color: white;
-    font-size: 31px;
 }
 
 .o-textoo{
