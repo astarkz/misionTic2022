@@ -9,23 +9,24 @@ import { nanoid } from 'nanoid';
 import axios from 'axios';
 import Tooltip from '@mui/material/Tooltip';
 import Dialog from '@mui/material/Dialog';
-import { obtenerVendedores } from 'utils/api';
+import { obtenerVentas } from 'utils/api';
 import Form from 'react-bootstrap/Form'
 import { Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button'
+import InputGroup from 'react-bootstrap/InputGroup'
 
 const Ventas = () => {
-    let [titulo, cuerpo] = Object.values(descripcion[1])
+    let [titulo, cuerpo] = Object.values(descripcion[0])
 
     const [mostrarTabla, setMostrarTabla] = useState(true);
-    const [Vendedores, setVendedores] = useState([]);
+    const [Ventas, setVentas] = useState([]);
     const [textoBoton, setTextoBoton] = useState('');
     const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
     const [colorBoton, setColorBoton] = useState('danger');
 
     useEffect(() => {
         if (ejecutarConsulta) {
-            obtenerVendedores(setVendedores, setEjecutarConsulta);
+            obtenerVentas(setVentas, setEjecutarConsulta);
         }
     }, [ejecutarConsulta]); //use effect vacio para traer los datos del backend
 
@@ -37,10 +38,10 @@ const Ventas = () => {
 
     useEffect(() => {
         if (mostrarTabla) {
-            setTextoBoton('Crear nuevo vendedor');
+            setTextoBoton('Crear nueva venta');
             setColorBoton('danger');
         } else {
-            setTextoBoton('Mostrar tabla de vendedores');
+            setTextoBoton('Mostrar tabla de ventas');
             setColorBoton('outline-danger');
         }
     }, [mostrarTabla]);
@@ -60,12 +61,12 @@ const Ventas = () => {
 
             <section className='bg-white rounded m-4 p-4 d-flex flex-column align-items-center col  h-100 ' >
                 <div className="tabla_grande" >
-                    {mostrarTabla ? (<TablaVendedores listaVendedores={Vendedores} setEjecutarConsulta={setEjecutarConsulta} />
+                    {mostrarTabla ? (<TablaVentas listaVentas={Ventas} setEjecutarConsulta={setEjecutarConsulta} />
                     ) :
-                        (<FormularioCreacionVendedores
+                        (<FormularioCreacionVentas
                             setMostrarTabla={setMostrarTabla}
-                            listaVendedores={Vendedores}
-                            setVendedores={setVendedores} />
+                            listaVentas={Ventas}
+                            setVentas={setVentas} />
                         )}
                     <ToastContainer
                         position="bottom-center"
@@ -79,31 +80,31 @@ const Ventas = () => {
     );
 }
 
-const TablaVendedores = ({ listaVendedores, setEjecutarConsulta }) => {
+const TablaVentas = ({ listaVentas, setEjecutarConsulta }) => {
     const form = useRef(null);
 
     useEffect(() => {
-        console.log('este es el estado de los Vendedores en el componente de la tabla: ', listaVendedores);
-    }, [listaVendedores]);
+        console.log('este es el estado de las ventas en el componente de la tabla: ', listaVentas);
+    }, [listaVentas]);
 
     return <div className="p-3" >
         <div>
-            <h2>Registro de vendedores</h2>
+            <h2>Registro de ventas</h2>
         </div>
         <table className="tabla_grande" >
             <thead>
                 <tr>
-                    <th>ID vendedor</th>
-                    <th>Nombre completo</th>
-                    <th>Especialidad</th>
-                    <th>Celular</th>
-                    <th>Fecha ingreso</th>
+                    <th>ID venta</th>
+                    <th>Descripción</th>
+                    <th>Valor total venta</th>
+                    <th>Fecha inicial</th>
+                    <th>Fecha de pago</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                {listaVendedores.map((Vendedor) => {
-                    return (<FilaVendedor key={nanoid()} Vendedor={Vendedor} setEjecutarConsulta={setEjecutarConsulta} />
+                {listaVentas.map((Venta) => {
+                    return (<FilaVenta key={nanoid()} Venta={Venta} setEjecutarConsulta={setEjecutarConsulta} />
                     )
                 })}
             </tbody>
@@ -111,57 +112,57 @@ const TablaVendedores = ({ listaVendedores, setEjecutarConsulta }) => {
     </div>
 };
 
-const FilaVendedor = ({ Vendedor, setEjecutarConsulta }) => {
+const FilaVenta = ({ Venta, setEjecutarConsulta }) => {
     const [edit, setEdit] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
-    const [infoNuevoVendedor, setInfoNuevoVendedor] = useState({
-        _id: Vendedor._id,
-        name: Vendedor.name,
-        especialidad: Vendedor.especialidad,
-        celular: Vendedor.celular,
-        fecha_ingreso: Vendedor.fecha_ingreso,
+    const [infoNuevaVenta, setInfoNuevaVenta] = useState({
+        _id: Venta._id,
+        descripcion: Venta.descripcion,
+        valor_total_venta: Venta.valor_total_venta,
+        fecha_inicial: Venta.fecha_inicial,
+        fecha_pago: Venta.fecha_pago,
     });
-    // ACTUALIZAR Vendedor ------------------------------
-    const actualizarVendedor = async () => {
+    // ACTUALIZAR Venta ------------------------------
+    const actualizarVenta = async () => {
         //enviar la info al backend
         const options = {
             method: 'PATCH',
-            url: 'http://localhost:5000/Vendedores/editar',
+            url: 'http://localhost:5000/Ventas/editar',
             headers: { 'Content-Type': 'application/json' },
-            data: { ...infoNuevoVendedor, id: Vendedor._id },
+            data: { ...infoNuevaVenta, id: Venta._id },
         };
         await axios
             .request(options)
             .then(function (response) {
                 console.log(response.data);
-                toast.success('Vendedor modificado con éxito');
+                toast.success('Venta modificado con éxito');
                 setEdit(false);
                 setEjecutarConsulta(true);
             })
             .catch(function (error) {
-                toast.error('Error modificando el Vendedor');
+                toast.error('Error modificando el Venta');
                 console.error(error);
             });
     };
-    //BORRAR Vendedor ---------------------------------
-    const eliminarVendedor = async () => {
+    //BORRAR Venta ---------------------------------
+    const eliminarVenta = async () => {
         const options = {
             method: 'DELETE',
-            url: 'http://localhost:5000/Vendedores/eliminar',
+            url: 'http://localhost:5000/Ventas/eliminar',
             headers: { 'Content-Type': 'application/json' },
-            data: { id: Vendedor._id },
+            data: { id: Venta._id },
         };
 
         await axios
             .request(options)
             .then(function (response) {
                 console.log(response.data);
-                toast.success('Vendedor eliminado con éxito');
+                toast.success('Venta eliminado con éxito');
                 setEjecutarConsulta(true);
             })
             .catch(function (error) {
                 console.error(error);
-                toast.error('Error eliminando el vendedor');
+                toast.error('Error eliminando el venta');
             });
     };
 
@@ -169,35 +170,35 @@ const FilaVendedor = ({ Vendedor, setEjecutarConsulta }) => {
         <tr >
             {edit ? (
                 <>
-                    <td>{infoNuevoVendedor._id}</td>
+                    <td>{infoNuevaVenta._id}</td>
                     <td>
-                        <input type='text' value={infoNuevoVendedor.name}
-                            onChange={e => setInfoNuevoVendedor({ ...infoNuevoVendedor, name: e.target.value })}
+                        <input type='text' value={infoNuevaVenta.descripcion}
+                            onChange={e => setInfoNuevaVenta({ ...infoNuevaVenta, descripcion: e.target.value })}
                         />
                     </td>
                     <td>
-                        <input type='especialidad' value={infoNuevoVendedor.especialidad}
-                            onChange={e => setInfoNuevoVendedor({ ...infoNuevoVendedor, especialidad: e.target.value })}
+                        <input type='valor_total_venta' value={infoNuevaVenta.valor_total_venta}
+                            onChange={e => setInfoNuevaVenta({ ...infoNuevaVenta, valor_total_venta: e.target.value })}
                         />
                     </td>
                     <td>
-                        <input type='text' value={infoNuevoVendedor.celular}
-                            onChange={e => setInfoNuevoVendedor({ ...infoNuevoVendedor, celular: e.target.value })}
+                        <input type='text' value={infoNuevaVenta.fecha_inicial}
+                            onChange={e => setInfoNuevaVenta({ ...infoNuevaVenta, fecha_inicial: e.target.value })}
                         />
                     </td>
                     <td>
-                        <input type='number' value={infoNuevoVendedor.fecha_ingreso}
-                            onChange={e => setInfoNuevoVendedor({ ...infoNuevoVendedor, fecha_ingreso: e.target.value })}
+                        <input type='number' value={infoNuevaVenta.fecha_pago}
+                            onChange={e => setInfoNuevaVenta({ ...infoNuevaVenta, fecha_pago: e.target.value })}
                         />
                     </td>
                 </>
             ) : (
                 <>
-                    <td>{Vendedor._id}</td>
-                    <td>{Vendedor.name}</td>
-                    <td>{Vendedor.especialidad}</td>
-                    <td>{Vendedor.celular}</td>
-                    <td>{Vendedor.fecha_ingreso}</td>
+                    <td>{Venta._id}</td>
+                    <td>{Venta.descripcion}</td>
+                    <td>{Venta.valor_total_venta}</td>
+                    <td>{Venta.fecha_inicial}</td>
+                    <td>{Venta.fecha_pago}</td>
                 </>
             )}
 
@@ -208,7 +209,7 @@ const FilaVendedor = ({ Vendedor, setEjecutarConsulta }) => {
                         <>
                             <Tooltip title='Confirmar edición' arrow>
                                 <i
-                                    onClick={() => actualizarVendedor()}
+                                    onClick={() => actualizarVenta()}
                                     className='fas fa-check text-success'
                                 />
                             </Tooltip>
@@ -221,13 +222,13 @@ const FilaVendedor = ({ Vendedor, setEjecutarConsulta }) => {
                         </>
                     ) : (
                         <>
-                            <Tooltip title='Editar Vendedor' arrow>
+                            <Tooltip title='Editar Venta' arrow>
                                 <i
                                     onClick={() => setEdit(!edit)} className='fas fa-pencil-alt'
                                 />
                             </Tooltip>
 
-                            <Tooltip title='Eliminar Vendedor' arrow>
+                            <Tooltip title='Eliminar Venta' arrow>
                                 <i onClick={() => setOpenDialog(true)} className='fas fa-trash' />
                             </Tooltip>
                         </>
@@ -235,8 +236,8 @@ const FilaVendedor = ({ Vendedor, setEjecutarConsulta }) => {
                 </div>
                 <Dialog open={openDialog}>
                     <div>
-                        <h1 className='text-danger w-100'>¿Esta seguro de querer eliminar el vendedor??</h1>
-                        <button onClick={() => eliminarVendedor()} className='btn btn-danger m-2 '>Sí</button>
+                        <h1 className='text-danger w-100'>¿Esta seguro de querer eliminar el venta??</h1>
+                        <button onClick={() => eliminarVenta()} className='btn btn-danger m-2 '>Sí</button>
                         <button onClick={() => setOpenDialog(false)} className='btn btn-light m-2'>No</button>
                     </div>
                 </Dialog>
@@ -246,7 +247,7 @@ const FilaVendedor = ({ Vendedor, setEjecutarConsulta }) => {
     );
 };
 
-const FormularioCreacionVendedores = ({ setMostrarTabla, listaVendedores, setVendedores }) => {
+const FormularioCreacionVentas = ({ setMostrarTabla, listaVentas, setVentas }) => {
 
     const form = useRef(null);
 
@@ -254,19 +255,19 @@ const FormularioCreacionVendedores = ({ setMostrarTabla, listaVendedores, setVen
         e.preventDefault();
 
         const fd = new FormData(form.current);
-        const nuevoVendedor = {};
+        const nuevaVenta = {};
         fd.forEach((value, key) => {
-            nuevoVendedor[key] = value;
-            console.log("esto son la informacion del nuevo Vendedor ", nuevoVendedor);
+            nuevaVenta[key] = value;
+            console.log("esto son la informacion de la nueva venta ", nuevaVenta);
         });
 
         const options = {
             method: 'POST',
-            url: 'http://localhost:5000/Vendedores/nuevo',
+            url: 'http://localhost:5000/Ventas/nueva',
             headers: { 'Content-Type': 'application/json' },
             data: {
-                name: nuevoVendedor.name, especialidad: nuevoVendedor.especialidad, celular: nuevoVendedor.celular
-                , fecha_ingreso: nuevoVendedor.fecha_ingreso
+                descripcion: nuevaVenta.descripcion, valor_total_venta: nuevaVenta.valor_total_venta, fecha_inicial: nuevaVenta.fecha_inicial
+                , fecha_pago: nuevaVenta.fecha_pago
             },
         };
 
@@ -274,58 +275,58 @@ const FormularioCreacionVendedores = ({ setMostrarTabla, listaVendedores, setVen
             .request(options)
             .then(function (response) {
                 console.log(response.data);
-                toast.success('Vendedor agregado con éxito');
+                toast.success('Venta agregado con éxito');
             })
             .catch(function (error) {
                 console.error(error);
-                toast.error('Error creando un Vendedor');
+                toast.error('Error creando un Venta');
             });
 
         setMostrarTabla(true);
 
-        //con spread operator "..." dice que tome todo lo que haya en lista Vendedores y que le añada lo que haya en nuevo Vendedor, osea otro registro.
-        setVendedores([...listaVendedores, nuevoVendedor]);
+        //con spread operator "..." dice que tome todo lo que haya en lista Ventas y que le añada lo que haya en nueva Venta, osea otro registro.
+        setVentas([...listaVentas, nuevaVenta]);
 
     };
 
     return <div className='d-flex flex-column w-100 align-items-center'>
-        <div className="m-3"><h2>Crear nuevo vendedor</h2></div>
+        <div className="m-3"><h2>Crear nueva venta</h2></div>
         <Form className='d-flex flex-column w-50 align-items-left' ref={form} onSubmit={submitForm} >
 
             <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={3} htmlFor='name'> Nombre completo </Form.Label>
+                <Form.Label column sm={3} htmlFor='descripcion'> Descripción de la venta </Form.Label>
                 <Col sm={9}>
-                    <Form.Control name='name' type='text' placeholder='Ingresa tu nombre aqui' required />
+                    <Form.Control as="textarea"  name='descripcion' type='text' placeholder='Ingresa la descripción de los artículos vendidos' required />
                 </Col>
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3" >
-                <Form.Label column sm={3} htmlFor='especialidad'> Especialidad </Form.Label>
+                <Form.Label column sm={3} htmlFor='valor_total_venta'> Valor total venta </Form.Label>
                 <Col sm={9}>
-                    <Form.Select name='especialidad' required>
-                        <option value="Ninguno" disabled >Seleccione una opción</option>
-                        <option value="DC">Figuras de colección DC</option>
-                        <option value="Marvel">Figuras de colección Marvel</option>
-                        <option value="Otras">Otras figuras de colección</option>
-                    </Form.Select>
+                    <InputGroup>
+                        <InputGroup.Text>$</InputGroup.Text>
+                        <Form.Control aria-label="Amount (to the nearest dollar)" name='valor_total_venta' type='number' min="0" step="any" placeholder='Ingresa el valor total de la venta' required />
+                        <InputGroup.Text>.00</InputGroup.Text>
+                    </InputGroup>
+                    
                 </Col>
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3" >
-                <Form.Label column sm={3} htmlFor='celular'> Celular </Form.Label>
+                <Form.Label column sm={3} htmlFor='fecha_inicial'> Fecha inicial </Form.Label>
                 <Col sm={9}>
-                    <Form.Control name='celular' type='phone' placeholder='Ingresa tu telefono aqui' required />
+                    <Form.Control name='fecha_inicial' type='date' placeholder='dd/mm/aaaa' required />
                 </Col>
             </Form.Group>
 
             <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={3} htmlFor='fecha_ingreso'> Fecha de ingreso </Form.Label>
+                <Form.Label column sm={3} htmlFor='fecha_pago'> Fecha de pago </Form.Label>
                 <Col sm={9}>
-                    <Form.Control name='fecha_ingreso' type='date' placeholder='dd/mm/aaaa' required />
+                    <Form.Control name='fecha_pago' type='date' placeholder='dd/mm/aaaa' required />
                 </Col>
             </Form.Group>
 
-            <button type='submit' className='btn btn-danger'  >Guardar Vendedor</button>
+            <button type='submit' className='btn btn-danger' >Guardar Venta</button>
         </Form>
     </div>;
 };

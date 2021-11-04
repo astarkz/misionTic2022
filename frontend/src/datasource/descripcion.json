@@ -1,6 +1,6 @@
 [
     {
-        "titulo": "Gestión de Ventas",
+        "titulo": "Gestión de ventas",
         "cuerpo": "En la Gestión de ventas se pueden ingresar o registrar los pedidos realizados por los clientes. Tambien establecer el estados de una venta (creada, embalaje, despacho, en ruta, ubicación, recepción).  Adicionalmente se consultar todas las ventas realizadas, asi como modificarlas o eliminarlas.",
         "textoBoton": "Agregar venta"
     },
