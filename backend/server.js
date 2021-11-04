@@ -231,14 +231,14 @@ app.get('/Ventas', (req, res) => {
         })
 })
 
-app.post("/Ventas/nuevo", (req, res) => {
-    const datosVendedor = req.body;
-    console.log("Vendedor a crear: ", Object.keys(datosVendedor))
+app.post("/Ventas/nueva", (req, res) => {
+    const datosVenta = req.body;
+    console.log("Venta a crear: ", Object.keys(datosVenta))
     try {
         if ( //las validaciones que se quieran hacer
-            Object.keys(datosVendedor).includes('name')
+            Object.keys(datosVenta).includes('descripcion')
         ) {
-            baseDeDatos.collection('Ventas').insertOne(datosVendedor,
+            baseDeDatos.collection('Ventas').insertOne(datosVenta,
                 (err, result) => {
                     if (err) {
                         console.error(err)
@@ -260,16 +260,16 @@ app.post("/Ventas/nuevo", (req, res) => {
 app.patch("/Ventas/editar", (req, res) => {
     const edicion = req.body;
     delete edicion.id;
-    const filtroVendedor = { _id: new ObjectId(edicion._id) }
+    const filtroVenta = { _id: new ObjectId(edicion._id) }
     delete edicion._id;
     console.log(edicion)
     const operacion = { $set: edicion }
     baseDeDatos.collection('Ventas').
-        findOneAndUpdate(filtroVendedor, operacion,
+        findOneAndUpdate(filtroVenta, operacion,
             { upsert: true, returnOriginal: true },
             (err, result) => {
                 if (err) {
-                    console.error('error actualizando el vendedor: ', err)
+                    console.error('error actualizando la venta: ', err)
                     res.sendStatus(500)
                 } else {
                     console.log('actualizado con exito')
@@ -280,11 +280,11 @@ app.patch("/Ventas/editar", (req, res) => {
 
 app.delete("/Ventas/eliminar", (req, res) => {
     const edicion = req.body;
-    const filtroVendedor = { _id: new ObjectId(edicion.id) }
+    const filtroVenta = { _id: new ObjectId(edicion.id) }
     baseDeDatos.collection('Ventas')
-        .deleteOne(filtroVendedor, (err, resul) => {
+        .deleteOne(filtroVenta, (err, resul) => {
             if (err) {
-                console.error('error eliminando el vendedor: ', err)
+                console.error('error eliminando la venta: ', err)
                 res.sendStatus(500)
             } else {
                 console.log('eliminado con exito')
