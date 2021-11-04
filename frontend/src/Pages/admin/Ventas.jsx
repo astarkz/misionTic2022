@@ -187,7 +187,7 @@ const FilaVenta = ({ Venta, setEjecutarConsulta }) => {
                         />
                     </td>
                     <td>
-                        <input type='number' value={infoNuevaVenta.fecha_pago}
+                        <input type='text' value={infoNuevaVenta.fecha_pago}
                             onChange={e => setInfoNuevaVenta({ ...infoNuevaVenta, fecha_pago: e.target.value })}
                         />
                     </td>
@@ -216,7 +216,7 @@ const FilaVenta = ({ Venta, setEjecutarConsulta }) => {
 
                             <Tooltip title='Cancelar edición' arrow>
                                 <i
-                                    onClick={() => setEdit(!edit)} className='fas fa-ban-alt'
+                                    onClick={() => setEdit(!edit)} className='fas fa-ban'
                                 />
                             </Tooltip>
                         </>

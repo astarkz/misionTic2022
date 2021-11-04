@@ -224,7 +224,7 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
 
                             <Tooltip title='Cancelar edición' arrow>
                                 <i
-                                    onClick={() => setEdit(!edit)} className='fas fa-ban-alt'
+                                    onClick={() => setEdit(!edit)} className='fas fa-ban'
                                 />
                             </Tooltip>
                         </>
