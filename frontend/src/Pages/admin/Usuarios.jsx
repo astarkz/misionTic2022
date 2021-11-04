@@ -1,9 +1,8 @@
 import React from 'react'
 import Descripcion from 'components/descripcion/Descripcion'
-import Tabla from 'components/tabla/Tabla';
 import 'Pages/styles.css';
 import descripcion from 'datasource/descripcion.json'
-import modalInfo from 'datasource/modalInfo.json'
+//import modalInfo from 'datasource/modalInfo.json'
 import { useState, useEffect, useRef } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
@@ -13,18 +12,19 @@ import axios from 'axios';
 import Tooltip from '@mui/material/Tooltip';
 import Dialog from '@mui/material/Dialog';
 import { obtenerUsuarios } from 'utils/api';
+import Form from 'react-bootstrap/Form'
+import { Row, Col } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button'
 
 
 const Usuarios = () => {
     let [titulo, cuerpo] = Object.values(descripcion[2])
-    let modal = modalInfo[2]
 
     const [mostrarTabla, setMostrarTabla] = useState(true);
     const [usuarios, setUsuarios] = useState([]);
     const [textoBoton, setTextoBoton] = useState('');
     const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
-
-
+    const [colorBoton, setColorBoton] = useState('danger');
     
     useEffect(() => {
         
@@ -46,27 +46,35 @@ const Usuarios = () => {
     useEffect(() => {
         if (mostrarTabla) {
             setTextoBoton('Crear nuevo usuario');
+            setColorBoton('danger');
         }
         else {
-            setTextoBoton('Mostrar todos los usuarios');
+            setTextoBoton('Mostrar lista de usuarios');
+            setColorBoton('outline-danger');
         }
     }, [mostrarTabla]);
 
     return (
         <section className='fondoGris'>
-            <Descripcion
-                titulo={titulo}
-                cuerpo={cuerpo}
-            //modal={modal}
-            />
-            <section className='bg-white rounded m-4 p-4 d-flex flex-column align-items-center col  h-100 ' >
+            <section className="o-container-description">
+                <section className="o-description-text">
+                    <h1>{titulo}</h1>
+                    <p>{cuerpo}</p>
+                </section>
+                <div className='w-50 justify-content-end'>
+                    <Button className="p-4  rounded-circle" roundedCircle variant={colorBoton}
+                        onClick={() => { setMostrarTabla(!mostrarTabla); }}>{textoBoton}</Button>
+                </div>
+            </section>
+            
+            <section className='bg-white rounded m-4 p-4 d-flex flex-column align-items-center col  h-100 '>
 
+                {/*
                 <div>
                     <button className='btn btn-danger w-100 '
                         onClick={() => { setMostrarTabla(!mostrarTabla); }}>{textoBoton}</button>
                 </div>
-
-                {/* con set cambiamos el estado cada que se le da click */
+                 con set cambiamos el estado cada que se le da click */
                 /*Si mostrar tabla es true, entonces se muestra tabla usuarios
                 sino, se muestra formulario creacion usuarios*/ }
 
@@ -298,36 +306,45 @@ const FormularioCreacionUsuarios = ({ setMostrarTabla, listaUsuarios, setUsuario
     };
 
     return <div className='d-flex flex-column w-100 align-items-center'>
-        <div><h2>Crear nuevo usuario</h2></div>
-        <div className="o-forms-user">
-            <form ref={form} onSubmit={submitForm} className='form-group o-forms-style'>
-                <label htmlFor='name'>Nombre
-                    <input className='o-input-usuarios rounded' name='name' type='text' placeholder='Pepito Perez'
-                        required />
-                </label>
+        <div className="m-3"><h2>Crear nuevo usuario</h2></div>
+        <Form className='d-flex flex-column w-50 align-items-left' ref={form} onSubmit={submitForm} >
+            <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={3} htmlFor='name'> Nombre completo </Form.Label>
+                <Col sm={9}>
+                    <Form.Control name='name' type='text' placeholder='Ingresa tu nombre aqui' required />
+                </Col>
+            </Form.Group>
 
-                <label htmlFor='password'>Contraseña
-                    <input className='o-input-usuarios rounded ' name='password' type='password' placeholder='1sd78cafe'
-                        required />
-                </label>
+            <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={3} htmlFor='name'> Contraseña </Form.Label>
+                <Col sm={9}>
+                    <Form.Control name='password' type='password' placeholder='Ingresa tu contraseña' required />
+                    <Form.Text className="text-muted">
+                        Nunca compartas tu contraseña con nadie.
+                    </Form.Text>
+                </Col>                
+            </Form.Group>
 
-                <label htmlFor='rol' >Rol
-                    <select
-                        name='rol' className='o-input-usuarios rounded' placeholder='usuario' required>
-                        <option disabled defaultValue>Seleccione una opción</option>
-                        <option>Administrador</option>
-                        <option>Vendedor</option>
-                        <option>Usuario</option>
-                    </select>
-                </label>
+            <Form.Group as={Row} className="mb-3" >
+                <Form.Label column sm={3} htmlFor='rol'> Rol </Form.Label>
+                <Col sm={9}>
+                    <Form.Select name='rol' required>
+                        <option value="Ninguno" disabled >Seleccione una opción</option>
+                        <option value="Usuario">Usuario</option>
+                        <option value="Vendedor">Vendedor</option>                        
+                        <option value="Administrador">Administrador</option>
+                    </Form.Select>
+                </Col>
+            </Form.Group>
 
-                <label htmlFor='cel'>Celular
-                    <input className='o-input-usuarios rounded ' name='cel' type='number' placeholder='316547810'
-                        required />
-                </label>
+            <Form.Group as={Row} className="mb-3">
+                <Form.Label column sm={3} htmlFor='cel'> Celular </Form.Label>
+                <Col sm={9}>
+                    <Form.Control name='cel' type='number' placeholder='Ingresa tu telefono celular' required />
+                </Col>
+            </Form.Group>
                 <button type='submit' className='btn btn-danger'  >Guardar Usuario</button>
-            </form>
-        </div>
+            </Form>
     </div>;
 };
 
