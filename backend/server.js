@@ -287,7 +287,7 @@ app.delete("/Ventas/eliminar", (req, res) => {
                 console.error('error eliminando la venta: ', err)
                 res.sendStatus(500)
             } else {
-                console.log('eliminado con exito')
+                console.log('venta eliminada con exito')
                 res.sendStatus(200)
             }
         })
