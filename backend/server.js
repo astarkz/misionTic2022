@@ -215,15 +215,15 @@ app.delete("/Vendedores/eliminar", (req, res) => {
 
 
 //----------------VENTAS------------------------------------------------------------------
-app.get('/Vendedores', (req, res) => {
-    console.log("se hizo get al servidor en la ruta /Vendedores")
+app.get('/Ventas', (req, res) => {
+    console.log("se hizo get al servidor en la ruta /Ventas")
 
-    baseDeDatos.collection('Vendedores')
+    baseDeDatos.collection('Ventas')
         .find({})
         .limit(20)
         .toArray((err, result) => {
             if (err) {
-                res.status(400).send("Error consultando los Vendedores")
+                res.status(400).send("Error consultando las ventas")
             }
             else {
                 res.json(result);
@@ -231,14 +231,14 @@ app.get('/Vendedores', (req, res) => {
         })
 })
 
-app.post("/Vendedores/nuevo", (req, res) => {
+app.post("/Ventas/nuevo", (req, res) => {
     const datosVendedor = req.body;
     console.log("Vendedor a crear: ", Object.keys(datosVendedor))
     try {
         if ( //las validaciones que se quieran hacer
             Object.keys(datosVendedor).includes('name')
         ) {
-            baseDeDatos.collection('Vendedores').insertOne(datosVendedor,
+            baseDeDatos.collection('Ventas').insertOne(datosVendedor,
                 (err, result) => {
                     if (err) {
                         console.error(err)
@@ -257,14 +257,14 @@ app.post("/Vendedores/nuevo", (req, res) => {
 })
 
 //ruta update= patch
-app.patch("/Vendedores/editar", (req, res) => {
+app.patch("/Ventas/editar", (req, res) => {
     const edicion = req.body;
     delete edicion.id;
     const filtroVendedor = { _id: new ObjectId(edicion._id) }
     delete edicion._id;
     console.log(edicion)
     const operacion = { $set: edicion }
-    baseDeDatos.collection('Vendedores').
+    baseDeDatos.collection('Ventas').
         findOneAndUpdate(filtroVendedor, operacion,
             { upsert: true, returnOriginal: true },
             (err, result) => {
@@ -278,10 +278,10 @@ app.patch("/Vendedores/editar", (req, res) => {
             })
 })
 
-app.delete("/Vendedores/eliminar", (req, res) => {
+app.delete("/Ventas/eliminar", (req, res) => {
     const edicion = req.body;
     const filtroVendedor = { _id: new ObjectId(edicion.id) }
-    baseDeDatos.collection('Vendedores')
+    baseDeDatos.collection('Ventas')
         .deleteOne(filtroVendedor, (err, resul) => {
             if (err) {
                 console.error('error eliminando el vendedor: ', err)
