@@ -27,7 +27,11 @@ const Header = () => {
                     <img className="o-img" src={notifications} alt="Notifications" />
                     <img className="o-img" src={user} alt="User picture" />
                     <h4>Administrador</h4>
-                   <button onClick={()=>logout({returnTo:window.location.origin})}><img className="o-img" src={logout} alt="Log out" /></button>
+                   <button className='' onClick={()=>logout({returnTo:window.location.origin})}>
+                   <i class="fas fa-sign-out-alt"></i>
+
+                     
+                    </button>
                 </section>
 
             </section>
