@@ -2,8 +2,11 @@ import React from 'react'
 import user from 'img/deadpool-icon.png';
 import 'components/navbarpublic/Publicnavbar.css'
 import { Link } from 'react-router-dom';
+import {useAuth0} from '@auth0/auth0-react';
 
 const Publicnavbar = () => {
+    //useContex de auth0
+    const{loginWithRedirect}= useAuth0();
     return (
         <>
             <ul  className="navbar m-0">
@@ -20,14 +23,18 @@ const Publicnavbar = () => {
                     </div>
                 </li>
                 <li>
-                    <Link to='/login'>
-                    <button className='o-btn-publiclogin botonGenerico mainButton'>Iniciar sesión</button>
-                    </Link>
+                    
+                    <button 
+                    onClick={()=>loginWithRedirect()}
+                    className='o-btn-publiclogin botonGenerico mainButton'>Iniciar sesión</button>
+                   
                 </li>
                 <li>
-                    <Link to='/login'>
-                        <button className='o-btn-publiclogin botonGenerico secondaryButton'>Registro</button>
-                    </Link>
+                    
+                        <button
+                        onClick={()=>loginWithRedirect()}
+                        className='o-btn-publiclogin botonGenerico secondaryButton'>Registro</button>
+                   
                 </li>
             </ul>
         </>

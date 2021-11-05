@@ -4,9 +4,11 @@ import notifications from 'img/bell.png';
 import user from 'img/deadpool-icon.png';
 import logout from 'img/logout.png';
 import search from 'img/loupe.png';
+import {useAuth0} from '@auth0/auth0-react';
 
 //con el sniper Rafce me crea el componene header como un arrow function
 const Header = () => {
+    const{logout}=useAuth0();
     return (
         <section className="o-main-container">
             <section className="o-up-navbar">
@@ -25,7 +27,7 @@ const Header = () => {
                     <img className="o-img" src={notifications} alt="Notifications" />
                     <img className="o-img" src={user} alt="User picture" />
                     <h4>Administrador</h4>
-                    <img className="o-img" src={logout} alt="Log out" />
+                   <button onClick={()=>logout({returnTo:window.location.origin})}><img className="o-img" src={logout} alt="Log out" /></button>
                 </section>
 
             </section>

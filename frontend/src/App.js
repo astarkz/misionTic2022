@@ -12,10 +12,19 @@ import Ventas from './Pages/admin/Ventas';
 import Index from './Pages/Index';
 import Login from './Pages/Login';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {Auth0Provider} from "@auth0/auth0-react"
 
 
 function App() {
   return (
+
+    //auth0provider engloba toda la aplicacion para que podamos usar autenticacion en cualquier parte
+    <Auth0Provider
+    domain='misiontic-figurascoleccion.us.auth0.com'
+    clientId='noLL4IfQRNCli25Pu9jsdzSDvZDfVXD7'
+    redirectUri={window.location.origin}
+    
+    >
     <div className="App">
       {/* Para cada layour se crea un route path que es un array, por ejemplo el de /admin
 luego de eso se abre el contenedor principal (layout) y dentro un switch que contendra
@@ -65,6 +74,7 @@ todas las rutas que vendran dentro, en este caso vendedores, ventas, inicio y us
         </Switch>
       </Router>
     </div>
+    </Auth0Provider>
   );
 }
 
