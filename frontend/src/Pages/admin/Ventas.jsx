@@ -15,6 +15,10 @@ import { Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
 
+const getToken = () => {
+    return `Bearer ${localStorage.getItem("token")}`;
+  };
+
 const Ventas = () => {
     let [titulo, cuerpo] = Object.values(descripcion[0])
 
@@ -128,7 +132,7 @@ const FilaVenta = ({ Venta, setEjecutarConsulta }) => {
         const options = {
             method: 'PATCH',
             url: 'http://localhost:5000/Ventas/editar',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json' ,Authorization: getToken(),},
             data: { ...infoNuevaVenta, id: Venta._id },
         };
         await axios
@@ -149,7 +153,7 @@ const FilaVenta = ({ Venta, setEjecutarConsulta }) => {
         const options = {
             method: 'DELETE',
             url: 'http://localhost:5000/Ventas/eliminar',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',Authorization: getToken(), },
             data: { id: Venta._id },
         };
 
@@ -264,7 +268,7 @@ const FormularioCreacionVentas = ({ setMostrarTabla, listaVentas, setVentas }) =
         const options = {
             method: 'POST',
             url: 'http://localhost:5000/Ventas/nueva',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',Authorization: getToken(), },
             data: {
                 descripcion: nuevaVenta.descripcion, valor_total_venta: nuevaVenta.valor_total_venta, fecha_inicial: nuevaVenta.fecha_inicial
                 , fecha_pago: nuevaVenta.fecha_pago

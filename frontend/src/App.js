@@ -22,7 +22,9 @@ function App() {
     <Auth0Provider
     domain='misiontic-figurascoleccion.us.auth0.com'
     clientId='noLL4IfQRNCli25Pu9jsdzSDvZDfVXD7'
-    redirectUri={window.location.origin}
+    //noLL4IfQRNCli25Pu9jsdzSDvZDfVXD7
+    redirectUri='http://localhost:3000/admin/inicio'
+    audience='api-autenticacion-figuras-mintic'
     
     >
     <div className="App">

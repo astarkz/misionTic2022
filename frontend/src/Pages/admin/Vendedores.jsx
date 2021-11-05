@@ -14,6 +14,10 @@ import Form from 'react-bootstrap/Form'
 import { Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button'
 
+const getToken = () => {
+    return `Bearer ${localStorage.getItem("token")}`;
+  };
+
 const Vendedores = () => {
     let [titulo, cuerpo] = Object.values(descripcion[1])
 
@@ -127,7 +131,7 @@ const FilaVendedor = ({ Vendedor, setEjecutarConsulta }) => {
         const options = {
             method: 'PATCH',
             url: 'http://localhost:5000/Vendedores/editar',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',Authorization: getToken(), },
             data: { ...infoNuevoVendedor, id: Vendedor._id },
         };
         await axios
@@ -148,7 +152,7 @@ const FilaVendedor = ({ Vendedor, setEjecutarConsulta }) => {
         const options = {
             method: 'DELETE',
             url: 'http://localhost:5000/Vendedores/eliminar',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json' ,Authorization: getToken(),},
             data: { id: Vendedor._id },
         };
 
@@ -263,7 +267,7 @@ const FormularioCreacionVendedores = ({ setMostrarTabla, listaVendedores, setVen
         const options = {
             method: 'POST',
             url: 'http://localhost:5000/Vendedores/nuevo',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',Authorization: getToken(), },
             data: {
                 name: nuevoVendedor.name, especialidad: nuevoVendedor.especialidad, celular: nuevoVendedor.celular
                 , fecha_ingreso: nuevoVendedor.fecha_ingreso

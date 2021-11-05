@@ -6,6 +6,8 @@ import Express from "express";
 import { MongoClient, ObjectId } from "mongodb"; //gestor de la bd, con mongoose o prisma tambien se puede hacer
 import Cors from 'cors' //import const (pkg de node.js) sirve para que express puede compartir recursos entre varias fuentes
 import dotenv from 'dotenv' //se agrego libreria para la var de entorno
+import jwt from 'express-jwt';  // se agrega import para autenticacion
+import jwks from 'jwks-rsa';    // se agrega import para autenticacion
 
 dotenv.config({ path: './.env' }) //ruta del archivo .env
 
@@ -24,6 +26,22 @@ let baseDeDatos;
 const app = Express()//nombre app
 app.use(Express.json())//para habilitar json en express, extraer la info util
 app.use(Cors())// use cors, compartir recursos entre multiples servidores
+
+//-----------------JWT PARA AUTENTICACION ---------------------
+
+var jwtCheck = jwt({
+    secret: jwks.expressJwtSecret({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 5,
+        jwksUri: 'https://misiontic-figurascoleccion.us.auth0.com/.well-known/jwks.json'
+  }),
+  audience: 'api-autenticacion-figuras-mintic',
+  issuer: 'https://misiontic-figurascoleccion.us.auth0.com/',
+  algorithms: ['RS256']
+});
+
+app.use(jwtCheck);
 
 //----------------USUARIOS---------------------------------
 //se necesita crear las rutas del servidor

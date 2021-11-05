@@ -4,19 +4,23 @@ import 'Pages/styles.css';
 import descripcion from 'datasource/descripcion.json'
 //import modalInfo from 'datasource/modalInfo.json'
 import { useState, useEffect, useRef } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify'; //Toast error and sucessfull
 import 'react-toastify/dist/ReactToastify.css'
 import 'Pages/styles.css'
-import { nanoid } from 'nanoid';
+import { nanoid } from 'nanoid'; //Nano id
 import axios from 'axios';
-import Tooltip from '@mui/material/Tooltip';
-import Dialog from '@mui/material/Dialog';
+import Tooltip from '@mui/material/Tooltip'; //material UI tooltip
+import Dialog from '@mui/material/Dialog';  //Material UI modal
 import { obtenerUsuarios } from 'utils/api';
 import Form from 'react-bootstrap/Form'
 import { Row, Col } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button'
+import Button from 'react-bootstrap/Button';
+import ReactLoading from 'react-loading';
 
-
+//metodo para obtener el token del localStorage
+const getToken = () => {
+    return `Bearer ${localStorage.getItem("token")}`;
+  };
 const Usuarios = () => {
     let [titulo, cuerpo] = Object.values(descripcion[2])
 
@@ -25,12 +29,16 @@ const Usuarios = () => {
     const [textoBoton, setTextoBoton] = useState('');
     const [ejecutarConsulta, setEjecutarConsulta] = useState(true);
     const [colorBoton, setColorBoton] = useState('danger');
+    const [loading,setLoading] = useState(false);
     
     useEffect(() => {
         
+        setLoading(false);
+        
         if (ejecutarConsulta) {
             obtenerUsuarios(setUsuarios,setEjecutarConsulta);
-                            }
+            setLoading(false);        
+        }
     }, [ejecutarConsulta]);
 
     //use effect vacio para traer los datos del backend
@@ -79,7 +87,8 @@ const Usuarios = () => {
                 sino, se muestra formulario creacion usuarios*/ }
 
                 <div className="tabla_grande" >
-                    {mostrarTabla ? (<TablaUsuarios listaUsuarios={usuarios} setEjecutarConsulta={setEjecutarConsulta} />
+
+                    {mostrarTabla ? (<TablaUsuarios loading={loading} listaUsuarios={usuarios} setEjecutarConsulta={setEjecutarConsulta} />
                     ) :
                         (<FormularioCreacionUsuarios
                             setMostrarTabla={setMostrarTabla}
@@ -99,7 +108,7 @@ const Usuarios = () => {
 
     );
 };
-const TablaUsuarios = ({ listaUsuarios, setEjecutarConsulta }) => {
+const TablaUsuarios = ({ loading, listaUsuarios, setEjecutarConsulta }) => {
     const form = useRef(null);
 
     useEffect(() => {
@@ -107,6 +116,8 @@ const TablaUsuarios = ({ listaUsuarios, setEjecutarConsulta }) => {
     }, [listaUsuarios]);
 
     return (<div>
+        {loading ?(<ReactLoading type ="cylon" color="abc123" height={667} with={375}/>
+        ) : (
         <table className="tabla_grande">
             <thead>
                 <tr>
@@ -125,6 +136,7 @@ const TablaUsuarios = ({ listaUsuarios, setEjecutarConsulta }) => {
                 })}
             </tbody>
         </table>
+        )}
     </div>)
 };
 const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
@@ -144,7 +156,7 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
         const options = {
             method: 'PATCH',
             url: 'http://localhost:5000/usuarios/editar',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',Authorization: getToken(), },
             data: { ...infoNuevoUsuario, id: usuario._id },
         };
         await axios
@@ -166,7 +178,7 @@ const FilaUsuario = ({ usuario, setEjecutarConsulta }) => {
         const options = {
             method: 'DELETE',
             url: 'http://localhost:5000/usuarios/eliminar',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',Authorization: getToken(), },
             data: { id: usuario._id },
         };
 
@@ -280,7 +292,7 @@ const FormularioCreacionUsuarios = ({ setMostrarTabla, listaUsuarios, setUsuario
         const options = {
             method: 'POST',
             url: 'http://localhost:5000/usuarios/nuevo',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',Authorization: getToken() },
             data: {
                 name: nuevoUsuario.name, password: nuevoUsuario.password, rol: nuevoUsuario.rol
                 , cel: nuevoUsuario.cel
