@@ -16,10 +16,8 @@ const PrivateRoutes = ({ children }) => {
       //Esto es para si se quieren hacer validaciones
       //       if (localStorage.getItem('token')){
       //         //validar fecha de expiracion del token
-
       //       }else{
       // //pedir token
-
       //       }
 
       const accessToken = await getAccessTokenSilently({

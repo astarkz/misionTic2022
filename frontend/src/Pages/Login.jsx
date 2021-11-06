@@ -9,7 +9,7 @@ const Login = () => {
         <div className="o-global-containerr">
             <div className='o-login-container shadow-sm p-3 mb-5 rounded d-flex flex-column align-items-center
            justify-content-center'>
-                <img className="o-img img-login" src={user} alt="User picture" />
+                <img className="o-img img-login" src={user} alt="Foto del usuario" />
                 <h1 className='p-1 m-0 text-center  w-0'>X-force Team</h1>
                 <h3 className='p-3'>Inicia sesión</h3>
                 <form className='mt-8 max-w-md'>

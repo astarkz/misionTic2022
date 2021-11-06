@@ -57,7 +57,7 @@ const Vendedores = () => {
                         <p>{cuerpo}</p>
                     </section>
                     <div className='w-50 justify-content-end'>
-                        <Button className="p-4  rounded-circle" roundedCircle variant={colorBoton}
+                        <Button className="p-4  rounded-circle"  variant={colorBoton}
                         onClick={() => { setMostrarTabla(!mostrarTabla); }}>{textoBoton}</Button>
                     </div>
                 </section>
@@ -84,10 +84,10 @@ const Vendedores = () => {
 }
 
 const TablaVendedores = ({ listaVendedores, setEjecutarConsulta }) => {
-    const form = useRef(null);
+    //const form = useRef(null);
 
     useEffect(() => {
-        console.log('este es el estado de los Vendedores en el componente de la tabla: ', listaVendedores);
+        console.log('Estado de los Vendedores en el componente de la tabla: ', listaVendedores);
     }, [listaVendedores]);
 
     return <div className="p-3" >

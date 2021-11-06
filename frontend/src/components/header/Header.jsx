@@ -2,7 +2,7 @@ import React from "react";
 import "components/header/Header.css";
 import notifications from "img/bell.png";
 import user from "img/deadpool-icon.png";
-import logout from "img/logout.png";
+//import logout from "img/logout.png";
 import search from "img/loupe.png";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -37,13 +37,13 @@ const Header = () => {
 
         <section className="o-user-bar">
           <img className="o-img" src={notifications} alt="Notifications" />
-          <img className="o-img" src={user} alt="User picture" />
+          <img className="o-img" src={user} alt="Foto del usuario" />
           <h4>Administrador</h4>
           <button
             className=""
             onClick={() => cerrarSesion() }
           >
-            <i class="fas fa-sign-out-alt"></i>
+            <i className="fas fa-sign-out-alt"></i>
           </button>
         </section>
       </section>

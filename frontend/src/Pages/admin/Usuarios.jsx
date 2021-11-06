@@ -1,5 +1,5 @@
 import React from 'react'
-import Descripcion from 'components/descripcion/Descripcion'
+import 'components/descripcion/descripcion.css'
 import 'Pages/styles.css';
 import descripcion from 'datasource/descripcion.json'
 //import modalInfo from 'datasource/modalInfo.json'
@@ -20,7 +20,7 @@ import ReactLoading from 'react-loading';
 //metodo para obtener el token del localStorage
 const getToken = () => {
     return `Bearer ${localStorage.getItem("token")}`;
-  };
+    };
 const Usuarios = () => {
     let [titulo, cuerpo] = Object.values(descripcion[2])
 
@@ -70,7 +70,7 @@ const Usuarios = () => {
                     <p>{cuerpo}</p>
                 </section>
                 <div className='w-50 justify-content-end'>
-                    <Button className="p-4  rounded-circle" roundedCircle variant={colorBoton}
+                    <Button className="p-4  rounded-circle" variant={colorBoton}
                         onClick={() => { setMostrarTabla(!mostrarTabla); }}>{textoBoton}</Button>
                 </div>
             </section>
@@ -109,10 +109,10 @@ const Usuarios = () => {
     );
 };
 const TablaUsuarios = ({ loading, listaUsuarios, setEjecutarConsulta }) => {
-    const form = useRef(null);
+    //const form = useRef(null);
 
     useEffect(() => {
-        console.log('este es el estado de los usuarios en el componente de la tabla: ', listaUsuarios);
+        console.log('Estado de los usuarios en el componente de la tabla: ', listaUsuarios);
     }, [listaUsuarios]);
 
     return (<div>
