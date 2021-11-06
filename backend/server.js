@@ -8,6 +8,7 @@ import Cors from 'cors' //import const (pkg de node.js) sirve para que express p
 import dotenv from 'dotenv' //se agrego libreria para la var de entorno
 import jwt from 'express-jwt';  // se agrega import para autenticacion
 import jwks from 'jwks-rsa';    // se agrega import para autenticacion
+import jwt_decode from 'jwt-decode'; //se importa para el desencriptado del token
 
 dotenv.config({ path: './.env' }) //ruta del archivo .env
 
@@ -35,12 +36,12 @@ var jwtCheck = jwt({
         rateLimit: true,
         jwksRequestsPerMinute: 5,
         jwksUri: 'https://misiontic-figurascoleccion.us.auth0.com/.well-known/jwks.json'
-  }),
-  audience: 'api-autenticacion-figuras-mintic',
-  issuer: 'https://misiontic-figurascoleccion.us.auth0.com/',
-  algorithms: ['RS256']
+    }),
+    audience: 'api-autenticacion-figuras-mintic',
+    issuer: 'https://misiontic-figurascoleccion.us.auth0.com/',
+    algorithms: ['RS256']
 });
-
+//PASO 4 Y 5, ENVIARLE EL TOKEN A AUTH0 PARA QUE DEVUELVE SI ES VALIDO O NO
 app.use(jwtCheck);
 
 //----------------USUARIOS---------------------------------
@@ -71,6 +72,50 @@ app.get('/usuarios', (req, res) => {
     //respuesta del servidor, devuelve el json de usuarios, antes
     //res.send(usuariosBackend);
 })
+
+const genericCallback = (res) => (err, result) => {
+    if (err) {
+        res.status(500).send('Error consultando los usuarios');
+    } else {
+        res.json(result);
+    }
+};
+
+
+app.get('/usuarios/self', (req, res) => {
+    console.log("se hizo get al servidor en la ruta /usuarios/self")
+    consultarOCrearUsuario(req, genericCallback(res));
+})
+
+// funcion que controla si el usuario ya existe en la bbdd o sino lo crea
+const consultarOCrearUsuario = async (req, callback) => {
+    //6.1. se obtienen los datos del usuarios desde el token
+    const token = req.headers.authorization.split("Bearer ")[1]; //primero se separa en una variable, solo el token
+    const user = jwt_decode(token)['http://localhost/userData']; //se muestra informacion legible (desencripptado) y solo los datos del usuario
+    //console.log("user data ", user)
+    
+    //6.2. se verifica si el usuario esta en la db o no (con correo o id de auth0)
+    await baseDeDatos.collection("usuarios").findOne({ email: user.email }, async (err, response) => {
+        //console.log("respuesta de la consulta db", response)        
+        if (response) {
+            // 7.1. si el usuario ya esta en la BD devuelve la info
+            callback(err, response)
+        } else {
+            //para conservar el ID de mongo y el de auth0
+            user.auth0ID = user._id;
+            delete user._id;
+            user.rol = "Inactivo"
+
+            // 7.2. sino, crea un usuario y devuelve la info
+            await crearUsuario(user,
+                (err, respuesta) => callback(err, user))
+        }
+    
+    })    
+}
+const crearUsuario = async (datosUsuario, callback) => {
+    await baseDeDatos.collection('usuarios').insertOne(datosUsuario, callback);
+};
 
 //ruta tipo post=create del crud
 //las app tipo post no se pueden hacer desde el navegador, se usa postman o insomnia, sirven para probar solicitudes
@@ -329,7 +374,7 @@ const main = () => {
             //decirle a la app que este escuchando los eventos, sirve para abrir el canal de comunicacion
             //se pone el  puerto 5000 para express por convencion deberia correr en 5000 o 5050
             app.listen(port, () => {
-                console.log(`alguien escucha el puerto ${port}`)
+                console.log(`El puerto ${port} esta escuchando`)
             }
             )// los console.log se muiestran sobre la terminal de vscode porque esta corriendo en el servidor y NO en el navegador del cliente)
         )
