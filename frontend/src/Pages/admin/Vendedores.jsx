@@ -238,7 +238,7 @@ const FilaVendedor = ({ Vendedor, setEjecutarConsulta }) => {
                     )}
                 </div>
                 <Dialog open={openDialog}>
-                    <div>
+                    <div className='d-flex flex-column'>
                         <h1 className='text-danger w-100'>¿Esta seguro de querer eliminar el vendedor??</h1>
                         <button onClick={() => eliminarVendedor()} className='btn btn-danger m-2 '>Sí</button>
                         <button onClick={() => setOpenDialog(false)} className='btn btn-light m-2'>No</button>
