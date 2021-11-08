@@ -1,0 +1,65 @@
+@import "../colors.css";
+
+.fondoGris{
+    display: flex;
+    flex-wrap: wrap;
+    background: var(--colorSecundario);
+    height: 100%;
+    width: 100%;
+}
+.o-index-space{
+
+    height: 100vh;
+}
+
+.o-login-container{
+    height: 80vh;
+    width: 27rem;
+    margin-bottom: 0px;
+}
+
+.btn-agregar{
+    background: var(--colorRojo);
+    color: var(--colorPrimario);;
+}
+
+.img-login{
+    height: 100px;
+    width: 100px;
+    padding: 10px;
+}
+
+.o-icono{
+    height: 50px;
+    width: 50px;
+    padding: 10px;
+}
+
+.o-input{
+    width: 350px;
+    
+}
+
+.o-btn-login-primary{
+    width: 350px;
+    padding: 10px;
+    text-align: center;
+    background-color: var(--colorRojo);  ;
+    color: var(--colorPrimario);
+}
+
+.contenedorCard{
+    padding: 20px;
+    display: flex;
+    justify-content: space-between
+}
+
+.o-forms-style{
+
+    max-inline-size: min-content;
+}
+
+.tabla_grande{
+    width: 100%;
+    justify-content: space-between
+}

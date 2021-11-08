@@ -1,0 +1,49 @@
+@import "colors.css";
+
+.contenedorSection{
+    background: var(--colorPrimario);    
+    margin: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--colorSecundario);
+    padding:20px; 
+}
+.contenedorTabla{
+    justify-content: space-evenly;
+    padding: 20px;
+    display: flex;
+}
+
+td, th{
+    padding: 5px;
+    border-bottom: 1px solid var(--colorSecundario);
+}
+.head {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;     
+    color: var(--colorFont2);
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 2px solid var(--colorTerciario);
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--colorFont1);
+    font-size: 18px;
+    text-align: center;
+    background: var(--colorPrimario);
+    justify-content: space-evenly;
+}
+
+.dataFila:hover{
+    background-color: var(--colorSecundario);
+}
+
+.contenedorElementosTabla{
+    display: grid;
+    grid-template-columns: 50% 25% 25%;
+    grid-gap: 10px;
+    padding: 20px 20px 0px;
+}

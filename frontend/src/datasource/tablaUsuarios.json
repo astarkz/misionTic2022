@@ -1,0 +1,62 @@
+[
+    {
+        "name": "Daniel Sims",
+        "email": "euismod@euturpisnulla.co.uk",
+        "rol": "Administrador",
+        "password": "DUQ42GIM1GT"
+    },
+    {
+        "name": "Allegra Mullen",
+        "email": "blandit.enim@dolor.ca",
+        "rol": "Administrador",
+        "password": "QGY90MFN8JJ"
+    },
+    {
+        "name": "Garrett Moore",
+        "email": "curabitur@elitelit.edu",
+        "rol": "Ejecutivo",
+        "password": "JNQ62HRF3RY"
+    },
+    {
+        "name": "Nero Davenport",
+        "email": "conubia.nostra@liberomaurisaliquam.ca",
+        "rol": "Ejecutivo",
+        "password": "RXA76DNY9GF"
+    },
+    {
+        "name": "Kareem Travis",
+        "email": "eu.euismod@cras.co.uk",
+        "rol": "Operario",
+        "password": "QVP31EZJ1FM"
+    },
+    {
+        "name": "Glenna Massey",
+        "email": "non@lacusmauris.net",
+        "rol": "Operario",
+        "password": "ITF51MKK0ZM"
+    },
+    {
+        "name": "Lionel Floyd",
+        "email": "penatibus.et@et.co.uk",
+        "rol": "Director",
+        "password": "SBL75CBO4KS"
+    },
+    {
+        "name": "Xaviera Hoover",
+        "email": "euismod.enim@proinultricesduis.co.uk",
+        "rol": "Director",
+        "password": "IKD22CNH6UX"
+    },
+    {
+        "name": "Maia Barron",
+        "email": "vulputate@dolordonecfringilla.org",
+        "rol": "Vendedor",
+        "password": "SDS68ADC9OI"
+    },
+    {
+        "name": "Laura Campos",
+        "email": "ante.blandit.viverra@neceuismodin.com",
+        "rol": "Vendedor",
+        "password": "LOU29BQM2IX"
+    }
+]

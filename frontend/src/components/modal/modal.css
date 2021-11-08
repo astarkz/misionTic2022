@@ -1,0 +1,67 @@
+@import "../../colors.css";
+
+.o-global-container{
+    position: fixed;
+    /*opacity: 60%;*/
+    z-index: 1000; 
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.o-modal-container{
+    width: 50vw;
+    
+    /*overflow: hidden;*/     
+    background:white;
+    transition: tranform 2s;
+    transform: translateY(0%);
+}
+/*
+.modal-close{
+    //transform: translateY(-200%);
+}
+*/
+
+.up-modal-container p{
+    color: #666A6E;
+}
+
+.up-modal-container h1{
+    color:#D93025;
+}
+
+.botonPrincipall{
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--colorRojo);
+    border: none;
+    color:  var(--colorPrimario);
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.825rem;
+    border-radius: 5px;    
+}
+
+.botonSecundarioo{
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--colorPrimario);
+    border: none;
+    color: var(--colorRojo);
+    padding: 5px 12px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.625rem;
+    border-radius: 5px;
+}
+
+.o-input-teext{
+
+    width: 10rem;
+    height: 2rem;
+}
+.center-modal-container{
+
+    place-content: center;
+}

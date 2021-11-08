@@ -1,0 +1,9 @@
+.fotoPequena{
+    height: 200px;
+}
+
+.contenedorImg{
+    width: 120px;
+    display: flex;
+    margin: 12px 6rem;
+}
